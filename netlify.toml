@@ -85,6 +85,17 @@
   to = "/.netlify/functions/outreach-send"
   status = 200
 
+# ── Lorikeet AI integration ───────────────────────────────
+[[redirects]]
+  from = "/api/lorikeet/webhook"
+  to = "/.netlify/functions/lorikeet-webhook"
+  status = 200
+
+[[redirects]]
+  from = "/api/lorikeet/actions/:action"
+  to = "/.netlify/functions/lorikeet-actions"
+  status = 200
+
 # ── Utility ───────────────────────────────────────────────
 [[redirects]]
   from = "/robots.txt"
