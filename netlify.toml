@@ -76,6 +76,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/ai-intake"
+  to = "/.netlify/functions/ai-intake"
+  status = 200
+
+[[redirects]]
   from = "/api/outreach/draft"
   to = "/.netlify/functions/outreach-draft"
   status = 200

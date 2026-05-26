@@ -165,9 +165,51 @@
     @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
 
-    /* Smooth reveal */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    /* ── Scroll reveal ────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
     .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Hero load sequence ───────────────────────────── */
+    .hero-content > * { opacity: 0; transform: translateY(22px); }
+    .hero-loaded .hero-content > * { animation: heroFade 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .hero-loaded .hero-eyebrow { animation-delay: 0.05s; }
+    .hero-loaded .hero-title   { animation-delay: 0.2s; }
+    .hero-loaded .hero-sub     { animation-delay: 0.35s; }
+    .hero-loaded .hero-cta     { animation-delay: 0.5s; }
+    @keyframes heroFade { to { opacity: 1; transform: none; } }
+
+    /* ── Hero scroll line pulse ───────────────────────── */
+    .hero-scroll { opacity: 0; animation: heroFade 0.9s 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .hero-scroll-line { animation: linePulse 2.2s ease-in-out infinite; }
+    @keyframes linePulse { 0%,100% { opacity:0.25; transform:scaleY(1); } 50% { opacity:0.7; transform:scaleY(1.35); } }
+
+    /* ── Feature strip lift on hover ──────────────────── */
+    .feature-strip { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s; }
+    .feature-strip:hover { transform: translateY(-5px); box-shadow: 0 28px 72px rgba(0,0,0,0.22); }
+
+    /* ── Marquee pause on hover ───────────────────────── */
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* ── Custom cursor (desktop only) ─────────────────── */
+    .cursor-dot {
+      position: fixed; z-index: 9998; pointer-events: none;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--dark); transform: translate(-50%,-50%);
+      transition: opacity 0.2s; mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      position: fixed; z-index: 9997; pointer-events: none;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid rgba(29,29,31,0.25);
+      transform: translate(-50%,-50%);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, opacity 0.2s;
+    }
+    .cursor-ring.hov { width: 52px; height: 52px; border-color: var(--gold); }
+    @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+
+    /* ── Stat item entrance ───────────────────────────── */
+    .stat-item { transition: background 0.3s; }
+    .stat-item__val { transition: color 0.3s; }
   </style>
 </head>
 <body>
@@ -197,7 +239,7 @@
   <div class="hero-content">
     <span class="hero-eyebrow">Dream Hospitality Group</span>
     <h1 class="hero-title">New York's finest.</h1>
-    <p class="hero-sub">Four nightlife venues. Four restaurant concepts. One standard of excellence across New York City.</p>
+    <p class="hero-sub">New York City's premier collection of nightlife venues, restaurants, and experiences.</p>
     <div class="hero-cta">
       <a href="#venues" class="btn btn--white btn--lg">Explore Venues</a>
       <a href="#reserve" class="btn btn--lg" style="background:rgba(255,255,255,0.12);color:#fff;backdrop-filter:blur(10px)">Make a Reservation</a>
@@ -245,20 +287,20 @@
 <div class="container reveal">
   <div class="stats-row">
     <div class="stat-item">
-      <div class="stat-item__val">4</div>
-      <div class="stat-item__label">Nightlife Venues</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-item__val">4</div>
-      <div class="stat-item__label">Restaurant Concepts</div>
+      <div class="stat-item__val">NYC</div>
+      <div class="stat-item__label">New York City</div>
     </div>
     <div class="stat-item">
       <div class="stat-item__val">18+</div>
       <div class="stat-item__label">Years Experience</div>
     </div>
     <div class="stat-item">
-      <div class="stat-item__val">NYC</div>
-      <div class="stat-item__label">New York City</div>
+      <div class="stat-item__val">VIP</div>
+      <div class="stat-item__label">Members Only</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__val">24/7</div>
+      <div class="stat-item__label">Concierge Access</div>
     </div>
   </div>
 </div>
@@ -454,7 +496,7 @@
       <div class="about-text">
         <div class="about-eyebrow">The Story</div>
         <h2 class="about-title" style="color:#fff">Built from the ground up.</h2>
-        <p class="about-body">Dream Hospitality Group was founded by George Karavias, a Greek-American with 18 years in New York nightlife. What started as a promotional outfit in 2015 has grown into an empire: four nightclubs, four restaurant concepts, and a cannabis brand.</p>
+        <p class="about-body">Dream Hospitality Group was founded by George Karavias, a Greek-American with 18 years in New York nightlife. What started as a promotional outfit in 2015 has grown into an empire spanning nightclubs, restaurant concepts, and a cannabis brand.</p>
         <p class="about-body">From Harbor to Sei Less, from Gyro City to Dank by Definition, every concept is built on intentionality, quality, and a genuine love for what New York City can be.</p>
         <p class="about-sig">George Karavias, Founder and President</p>
       </div>
@@ -487,6 +529,19 @@
       </div>
       <div class="reveal">
         <div class="reserve-form-wrap">
+          <!-- AI concierge bar -->
+          <div id="ai-bar" style="margin-bottom:24px">
+            <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              AI Concierge
+            </div>
+            <div style="position:relative">
+              <input id="ai-input" class="form-input" type="text" placeholder="Tell us what you need — e.g. &quot;Table for 6 at Sei Less Saturday night&quot;" style="padding-right:52px" />
+              <button type="button" id="ai-btn" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--dark);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:0.75rem;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s" onmouseover="this.style.background='#3a3a3c'" onmouseout="this.style.background='var(--dark)'">Go</button>
+            </div>
+            <div id="ai-reply" style="display:none;margin-top:10px;font-size:0.83rem;color:var(--muted);background:var(--surface);border-radius:10px;padding:12px 14px;line-height:1.6;border:1.5px solid var(--border)"></div>
+          </div>
+
           <form id="reserve-form">
             <div class="grid-2" style="gap:14px;margin-bottom:0">
               <div class="form-group">
@@ -556,7 +611,7 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">Dream Hospitality Group</div>
-        <p class="footer-tag">New York City's premier hospitality group. Four venues. Four restaurants. One standard.</p>
+        <p class="footer-tag">New York City's premier hospitality group. Nightlife, dining, and cannabis under one vision.</p>
       </div>
       <div>
         <div class="footer-col-title">Nightlife</div>
@@ -595,19 +650,165 @@
 </footer>
 
 <div id="toast-container"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
 
 <script>
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // ── Hero load sequence ─────────────────────────────────────────────────────
+  window.addEventListener('load', () => {
+    document.querySelector('.hero').classList.add('hero-loaded');
+  });
 
-  // Reserve form
+  // ── Scroll reveal + staggered grids ───────────────────────────────────────
+  // Apply stagger delays to venue cards inside grids before observing
+  document.querySelectorAll('.venue-grid').forEach(grid => {
+    grid.querySelectorAll('.reveal').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 0.08}s`;
+    });
+  });
+
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Stat counter animation ─────────────────────────────────────────────────
+  function countUp(el, target, ms) {
+    const numMatch = target.match(/^(\d+)/);
+    if (!numMatch) return;
+    const end = parseInt(numMatch[1]);
+    const suffix = target.slice(numMatch[1].length);
+    const t0 = performance.now();
+    const tick = now => {
+      const p = Math.min((now - t0) / ms, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.round(eased * end) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  const statObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.counted) {
+        e.target.dataset.counted = '1';
+        const valEl = e.target.querySelector('.stat-item__val');
+        if (valEl) countUp(valEl, valEl.textContent.trim(), 1400);
+        statObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-item').forEach(el => statObs.observe(el));
+
+  // ── Hero video parallax ────────────────────────────────────────────────────
+  const heroVid = document.querySelector('.hero-video-wrap video');
+  if (heroVid) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY * 0.28;
+          heroVid.style.transform = `translate(-50%, calc(-50% + ${y}px))`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // ── Custom cursor ──────────────────────────────────────────────────────────
+  const cursorDot  = document.querySelector('.cursor-dot');
+  const cursorRing = document.querySelector('.cursor-ring');
+  if (cursorDot && cursorRing && window.matchMedia('(hover:hover)').matches) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursorDot.style.left = mx + 'px';
+      cursorDot.style.top  = my + 'px';
+    });
+    (function animRing() {
+      rx += (mx - rx) * 0.13;
+      ry += (my - ry) * 0.13;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.querySelectorAll('a, button, .venue-card, .feature-strip, .tab-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorRing.classList.add('hov'));
+      el.addEventListener('mouseleave', () => cursorRing.classList.remove('hov'));
+    });
+    document.addEventListener('mouseleave', () => { cursorDot.style.opacity = '0'; cursorRing.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursorDot.style.opacity = '1'; cursorRing.style.opacity = '1'; });
+  }
+
+  // ── AI intake ──────────────────────────────────────────────────────────────
+  const aiBtn   = document.getElementById('ai-btn');
+  const aiInput = document.getElementById('ai-input');
+  const aiReply = document.getElementById('ai-reply');
+
+  async function runAI() {
+    const msg = aiInput.value.trim();
+    if (!msg) return;
+    aiBtn.disabled = true;
+    aiBtn.innerHTML = '<span class="loader" style="width:12px;height:12px;border-width:1.5px"></span>';
+    aiReply.style.display = 'none';
+    try {
+      const res = await fetch('/api/ai-intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg }),
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+
+      // Auto-fill form fields from AI parsing
+      const form = document.getElementById('reserve-form');
+      if (data.venue) {
+        const sel = form.querySelector('[name="venue"]');
+        if (sel) {
+          const opt = Array.from(sel.options).find(o => o.value.toLowerCase().includes(data.venue.toLowerCase().split(' ')[0]));
+          if (opt) sel.value = opt.value;
+        }
+      }
+      if (data.date) {
+        const dateInput = form.querySelector('[name="date"]');
+        if (dateInput) dateInput.value = data.date;
+      }
+      if (data.party_size) {
+        const guests = form.querySelector('[name="guests"]');
+        if (guests) guests.value = data.party_size;
+      }
+      if (data.notes) {
+        const notes = form.querySelector('[name="notes"]');
+        if (notes && !notes.value) notes.value = data.notes;
+      }
+
+      // Show reply
+      aiReply.textContent = data.reply;
+      aiReply.style.display = 'block';
+    } catch {
+      aiReply.textContent = 'AI assist is unavailable right now. Please fill in the form below.';
+      aiReply.style.display = 'block';
+    } finally {
+      aiBtn.disabled = false;
+      aiBtn.textContent = 'Go';
+    }
+  }
+
+  aiBtn.addEventListener('click', runAI);
+  aiInput.addEventListener('keydown', e => { if (e.key === 'Enter') runAI(); });
+
+  // ── Reserve form ───────────────────────────────────────────────────────────
   document.getElementById('reserve-form').addEventListener('submit', async e => {
     e.preventDefault();
     const btn = document.getElementById('reserve-btn');
-    btn.disabled = true; btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loader"></span>';
     const body = Object.fromEntries(new FormData(e.target).entries());
     body.name = `${body.first_name || ''} ${body.last_name || ''}`.trim();
     try {
@@ -617,7 +818,10 @@
       e.target.reset();
     } catch {
       showToast('Something went wrong. Please call us directly.', 'error');
-    } finally { btn.disabled = false; btn.textContent = 'Send Request'; }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Request';
+    }
   });
 
   function showToast(msg, type) {
