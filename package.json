@@ -1,0 +1,27 @@
+{
+  "name": "dream-os",
+  "version": "1.0.0",
+  "description": "Dream — A-list concierge platform and public hospitality booking",
+  "engines": {
+    "node": ">=20.12.2"
+  },
+  "scripts": {
+    "dev": "netlify dev --port 3000",
+    "dev:static": "npx --yes serve public -l 3000",
+    "build": "node scripts/brand-sync.js && node scripts/brand-audit.js",
+    "lint": "sh -c 'set -e; for f in $(find public/assets/js netlify/functions scripts lib -name \"*.js\" 2>/dev/null | grep -v node_modules); do node --check \"$f\" || exit 1; done; echo \"lint: JS syntax OK\"'",
+    "brand:sync": "node scripts/brand-sync.js",
+    "brand:audit": "node scripts/brand-audit.js",
+    "db:migrate": "node scripts/db-migrate.js",
+    "db:seed": "node scripts/db-seed.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@neondatabase/serverless": "^0.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^26.0.0"
+  }
+}

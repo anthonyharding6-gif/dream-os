@@ -1,0 +1,132 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# ── Auth ──────────────────────────────────────────────────
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth-:splat"
+  status = 200
+
+# ── Clients (A-list concierge) ────────────────────────────
+[[redirects]]
+  from = "/api/clients/*"
+  to = "/.netlify/functions/clients"
+  status = 200
+
+[[redirects]]
+  from = "/api/clients"
+  to = "/.netlify/functions/clients"
+  status = 200
+
+# ── Client presence (live/away) ───────────────────────────
+[[redirects]]
+  from = "/api/presence/*"
+  to = "/.netlify/functions/presence"
+  status = 200
+
+# ── Concierge ─────────────────────────────────────────────
+[[redirects]]
+  from = "/api/concierge/*"
+  to = "/.netlify/functions/concierge"
+  status = 200
+
+# ── Packages (public inventory) ───────────────────────────
+[[redirects]]
+  from = "/api/packages/*"
+  to = "/.netlify/functions/packages"
+  status = 200
+
+[[redirects]]
+  from = "/api/packages"
+  to = "/.netlify/functions/packages"
+  status = 200
+
+# ── Bookings ──────────────────────────────────────────────
+[[redirects]]
+  from = "/api/bookings/*"
+  to = "/.netlify/functions/bookings"
+  status = 200
+
+[[redirects]]
+  from = "/api/bookings"
+  to = "/.netlify/functions/bookings"
+  status = 200
+
+# ── Leads ─────────────────────────────────────────────────
+[[redirects]]
+  from = "/api/leads"
+  to = "/.netlify/functions/leads"
+  status = 200
+
+# ── Artists / Pipeline ────────────────────────────────────
+[[redirects]]
+  from = "/api/artists"
+  to = "/.netlify/functions/artists"
+  status = 200
+
+[[redirects]]
+  from = "/api/pipeline"
+  to = "/.netlify/functions/pipeline"
+  status = 200
+
+[[redirects]]
+  from = "/api/ai"
+  to = "/.netlify/functions/ai"
+  status = 200
+
+[[redirects]]
+  from = "/api/outreach/draft"
+  to = "/.netlify/functions/outreach-draft"
+  status = 200
+
+[[redirects]]
+  from = "/api/outreach/send"
+  to = "/.netlify/functions/outreach-send"
+  status = 200
+
+# ── Utility ───────────────────────────────────────────────
+[[redirects]]
+  from = "/robots.txt"
+  to = "/.netlify/functions/robots"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+
+# ── SPA-style page routing ────────────────────────────────
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/concierge"
+  to = "/concierge/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/concierge/*"
+  to = "/concierge/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/booking"
+  to = "/booking/index.html"
+  status = 200
+
+# ── Security headers (all routes) ─────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
