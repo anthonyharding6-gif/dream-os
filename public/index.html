@@ -3,272 +3,375 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dream — World Cup 2026 | VIP Hospitality NYC</title>
-  <meta name="description" content="39 nights. 10 venues. A-list concierge across NYC. The destination before, during, and after every match." />
+  <title>Dream Hospitality Group — NYC</title>
+  <meta name="description" content="New York's premier hospitality group. Nightclubs, restaurants, and experiences built for those who demand the best." />
   <link rel="stylesheet" href="/assets/css/main.css" />
   <style>
-    /* ── Hero ── */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      background: radial-gradient(ellipse at 60% 40%, rgba(201,169,110,0.07) 0%, transparent 60%),
-                  url('/assets/img/hero-bg.jpg') center/cover no-repeat;
-      position: relative;
-      padding-top: 64px;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(6,5,4,0.85) 0%, rgba(6,5,4,0.5) 100%);
-    }
-    .hero__content { position: relative; max-width: 720px; }
-    .hero__eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      margin-bottom: 24px;
-      font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent);
-    }
-    .hero__eyebrow::before {
-      content: ''; display: block;
-      width: 32px; height: 1px; background: var(--accent);
-    }
-    .hero h1 { margin-bottom: 24px; }
-    .hero p.lead {
-      font-size: 1.2rem; color: #c0b4a4;
-      max-width: 540px; margin-bottom: 40px;
-    }
-    .hero__cta { display: flex; gap: 16px; flex-wrap: wrap; }
-    .hero__stats {
-      position: absolute; bottom: 48px; left: 0; right: 0;
-      display: flex; gap: 0;
-      max-width: 720px;
-    }
-    .hero__stat {
-      flex: 1; padding: 20px 24px;
-      border-top: 1px solid rgba(201,169,110,0.3);
-    }
-    .hero__stat-value { font-size: 2rem; color: var(--accent); line-height: 1; }
-    .hero__stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
-
-    /* ── Split ── */
-    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
-    .split__panel {
-      background: var(--surface);
-      padding: 64px 48px;
-      position: relative; overflow: hidden;
-    }
-    .split__panel--vip { background: var(--surface2); }
-    .split__panel::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--border);
-    }
-    .split__panel--vip::before { background: var(--accent); }
-    .split__icon { font-size: 2rem; margin-bottom: 20px; }
-    .split__title { font-size: 1.5rem; margin-bottom: 12px; }
-    .split__text { margin-bottom: 32px; }
-    .split__features { list-style: none; margin-bottom: 36px; }
-    .split__features li {
-      padding: 8px 0;
+    /* ── Intro strip ── */
+    .intro {
+      padding: 120px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.9rem; color: #b0a898;
-      display: flex; align-items: center; gap: 10px;
     }
-    .split__features li::before { content: '—'; color: var(--accent); }
-    @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+    .intro__inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end;
+    }
+    @media (max-width: 768px) { .intro__inner { grid-template-columns: 1fr; gap: 40px; } }
 
-    /* ── Packages ── */
-    .pkg-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+    /* ── Section heading row ── */
+    .section-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Full-bleed venue panels ── */
+    .venue-panel {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex; align-items: center;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
     }
-    .pkg-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .pkg-card__img {
-      width: 100%; height: 200px;
-      background: var(--surface2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
+    .venue-panel__bg {
+      position: absolute; inset: 0;
+      transition: transform 8s ease;
     }
-    .pkg-card__body { padding: 20px; }
-    .pkg-card__venue { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .pkg-card__name { font-size: 1.1rem; margin-bottom: 8px; }
-    .pkg-card__desc { font-size: 0.875rem; color: var(--muted); margin-bottom: 16px; }
-    .pkg-card__price { font-size: 1.5rem; color: var(--accent); margin-bottom: 16px; }
-    .pkg-card__price span { font-size: 0.8rem; color: var(--muted); }
+    .venue-panel:hover .venue-panel__bg { transform: scale(1.04); }
+    .venue-panel__overlay {
+      position: absolute; inset: 0;
+    }
+    .venue-panel__inner {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 48px;
+    }
+    .venue-panel__content { max-width: 480px; }
+    .venue-panel--right .venue-panel__content { margin-left: auto; text-align: right; }
+    .venue-panel--right .venue-panel__cta { justify-content: flex-end; }
+    .venue-panel__eyebrow { margin-bottom: 16px; }
+    .venue-panel__name { margin-bottom: 20px; }
+    .venue-panel__desc { margin-bottom: 12px; }
+    .venue-panel__address { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-bottom: 36px; }
+    .venue-panel__cta { display: flex; gap: 14px; }
+    .venue-panel__num {
+      position: absolute; right: 48px; bottom: 48px;
+      font-family: 'Playfair Display', serif;
+      font-size: 12vw; line-height: 1;
+      color: rgba(255,255,255,0.04);
+      pointer-events: none; user-select: none;
+    }
+    @media (max-width: 640px) { .venue-panel__inner { padding: 0 24px; } .venue-panel__num { display: none; } }
 
-    /* ── Lead form ── */
-    .lead-form {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 48px;
-      max-width: 640px; margin: 0 auto;
-    }
-    .lead-form h2 { margin-bottom: 8px; }
-    .lead-form > p { margin-bottom: 32px; }
-
-    /* ── Footer ── */
-    .footer {
-      background: var(--surface);
+    /* ── Reserve section ── */
+    .reserve {
+      padding: 120px 0;
+      background: var(--off);
       border-top: 1px solid var(--border);
-      padding: 40px 0 24px;
     }
-    .footer__top { display: flex; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 24px; }
-    .footer__brand { font-size: 1.2rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
-    .footer__links { display: flex; gap: 24px; flex-wrap: wrap; }
-    .footer__links a { color: var(--muted); font-size: 0.875rem; }
-    .footer__bottom { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.8rem; flex-wrap: wrap; gap: 8px; }
+    .reserve__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    @media (max-width: 768px) { .reserve__inner { grid-template-columns: 1fr; gap: 48px; } }
+    .reserve__form-wrap {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+    }
 
-    /* ── Section label ── */
-    .section-label {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
-      margin-bottom: 16px;
-    }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--accent); opacity: 0.3; min-width: 40px; }
+    /* ── Marquee ── */
+    .marquee-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 20px 0; }
+    .marquee { display: flex; gap: 48px; animation: marquee 30s linear infinite; white-space: nowrap; }
+    .marquee-item { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--dim); flex-shrink: 0; }
+    .marquee-item span { color: var(--gold); margin-right: 48px; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── About ── */
+    .about { padding: 160px 0; }
+    .about__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+    .about__line { width: 48px; height: 1px; background: var(--gold); margin-bottom: 32px; }
+    .about__body { font-size: 1rem; color: var(--muted); line-height: 1.9; margin-bottom: 20px; }
+    @media (max-width: 768px) { .about__inner { grid-template-columns: 1fr; gap: 48px; } .about { padding: 80px 0; } }
   </style>
 </head>
 <body>
 
 <!-- Nav -->
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="nav__inner">
     <a href="/" class="nav__logo">Dream</a>
     <div class="nav__links">
-      <a href="#packages">Packages</a>
-      <a href="#concierge">Concierge</a>
-      <a href="/booking/">Book Now</a>
-      <a href="/admin/" class="btn btn--outline btn--sm">Staff Login</a>
+      <a href="#venues">Venues</a>
+      <a href="#restaurants">Restaurants</a>
+      <a href="#reserve">Reserve</a>
+      <a href="#about">About</a>
+      <a href="/admin/" class="nav__cta">Staff Portal</a>
+    </div>
+    <div class="nav__hamburger" id="hamburger">
+      <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
 
 <!-- Hero -->
 <section class="hero">
-  <div class="container">
+  <div class="hero__bg"></div>
+  <div class="container" style="padding-bottom: 0;">
     <div class="hero__content">
-      <div class="hero__eyebrow">World Cup 2026 — New York City</div>
-      <h1>The destination <span class="accent">before, during,<br>and after</span> every match.</h1>
-      <p class="lead">39 nights. 10 venues. Dream delivers the full experience — private suites, pitch-side access, and white-glove concierge for athletes, artists, and the people who matter.</p>
+      <div class="hero__eyebrow eyebrow">Dream Hospitality Group — New York City</div>
+      <h1 class="display-xl hero__title">Where the<br><em>night begins.</em></h1>
+      <p class="body-lg hero__sub">Nightclubs, restaurants, and experiences built for those who demand the best. Four venues. Four restaurants. One standard.</p>
       <div class="hero__cta">
-        <a href="/booking/" class="btn btn--gold btn--lg">Browse Packages</a>
-        <a href="#concierge" class="btn btn--outline btn--lg">Apply for Concierge</a>
-      </div>
-    </div>
-    <div class="hero__stats">
-      <div class="hero__stat">
-        <div class="hero__stat-value">39</div>
-        <div class="hero__stat-label">Tournament Nights</div>
-      </div>
-      <div class="hero__stat">
-        <div class="hero__stat-value">10</div>
-        <div class="hero__stat-label">NYC Venues</div>
-      </div>
-      <div class="hero__stat">
-        <div class="hero__stat-value">A-List</div>
-        <div class="hero__stat-label">Concierge Tier</div>
+        <a href="#venues" class="btn btn--gold btn--lg">Explore Venues</a>
+        <a href="#reserve" class="btn btn--outline btn--lg">Make a Reservation</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Split: Public vs VIP -->
-<section id="options">
-  <div class="split">
-    <div class="split__panel">
-      <div class="split__icon">🎟️</div>
-      <div class="split__title">Public Booking</div>
-      <p class="split__text">Browse and book curated World Cup hospitality packages directly. Tickets, suites, watch parties, and premium dining — available to everyone.</p>
-      <ul class="split__features">
-        <li>Match ticket packages</li>
-        <li>Premium watch party access</li>
-        <li>Group suites & VIP lounges</li>
-        <li>Hotel + experience bundles</li>
-        <li>Instant confirmation</li>
-      </ul>
-      <a href="/booking/" class="btn btn--ghost">Browse Packages</a>
-    </div>
-    <div class="split__panel split__panel--vip">
-      <div class="split__icon">✦</div>
-      <div class="split__title">A-List Concierge</div>
-      <p class="split__text">For athletes, artists, and executives. One dedicated concierge. Zero coordination headaches. Every detail handled before you ask.</p>
-      <ul class="split__features">
-        <li>Dedicated personal concierge</li>
-        <li>Private jet & ground coordination</li>
-        <li>After-party & venue access</li>
-        <li>Real-time presence & scheduling</li>
-        <li>24/7 direct line</li>
-      </ul>
-      <a href="#concierge" class="btn btn--gold">Apply for Access</a>
-    </div>
+<!-- Stats -->
+<div class="stats-strip">
+  <div class="stats-strip__item">
+    <div class="stats-strip__value">4</div>
+    <div class="stats-strip__label">Nightlife Venues</div>
   </div>
-</section>
+  <div class="stats-strip__item">
+    <div class="stats-strip__value">4</div>
+    <div class="stats-strip__label">Restaurant Concepts</div>
+  </div>
+  <div class="stats-strip__item">
+    <div class="stats-strip__value">18+</div>
+    <div class="stats-strip__label">Years in Hospitality</div>
+  </div>
+  <div class="stats-strip__item">
+    <div class="stats-strip__value">NYC</div>
+    <div class="stats-strip__label">New York City</div>
+  </div>
+</div>
 
-<!-- Featured Packages -->
-<section id="packages" class="section">
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <div class="marquee-item">Harbor <span>✦</span></div>
+    <div class="marquee-item">Nebula <span>✦</span></div>
+    <div class="marquee-item">PHD <span>✦</span></div>
+    <div class="marquee-item">Petite <span>✦</span></div>
+    <div class="marquee-item">Sei Less <span>✦</span></div>
+    <div class="marquee-item">Pappas NY <span>✦</span></div>
+    <div class="marquee-item">Tucci New York <span>✦</span></div>
+    <div class="marquee-item">Gyro City <span>✦</span></div>
+    <div class="marquee-item">Dank by Definition <span>✦</span></div>
+    <div class="marquee-item">Harbor <span>✦</span></div>
+    <div class="marquee-item">Nebula <span>✦</span></div>
+    <div class="marquee-item">PHD <span>✦</span></div>
+    <div class="marquee-item">Petite <span>✦</span></div>
+    <div class="marquee-item">Sei Less <span>✦</span></div>
+    <div class="marquee-item">Pappas NY <span>✦</span></div>
+    <div class="marquee-item">Tucci New York <span>✦</span></div>
+    <div class="marquee-item">Gyro City <span>✦</span></div>
+    <div class="marquee-item">Dank by Definition <span>✦</span></div>
+  </div>
+</div>
+
+<!-- ── NIGHTLIFE ── -->
+<div id="venues">
+
+  <!-- Harbor -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-harbor"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content">
+        <div class="venue-panel__eyebrow eyebrow">Nightclub — Flagship</div>
+        <h2 class="display-lg venue-panel__name">Harbor<br>New York City</h2>
+        <p class="body-sm venue-panel__desc">10,000 sq ft. Two levels. NYC's premier rooftop nightclub and multilevel event space on the West Side. From intimate lounges to full club takeovers — Harbor is the standard.</p>
+        <div class="venue-panel__address">West 46th Street — Hell's Kitchen, NYC</div>
+        <div class="venue-panel__cta">
+          <a href="#reserve" class="btn btn--gold">Reserve Table</a>
+          <a href="#reserve" class="btn btn--outline">Buy Tickets</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">01</div>
+  </div>
+
+  <!-- Nebula -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-nebula"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(270deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content" style="margin-left:auto;text-align:right">
+        <div class="venue-panel__eyebrow eyebrow">Nightclub</div>
+        <h2 class="display-lg venue-panel__name">Nebula</h2>
+        <p class="body-sm venue-panel__desc">A world-class nightclub experience in the heart of New York City. Cutting-edge production, international DJs, and a crowd that knows exactly where to be.</p>
+        <div class="venue-panel__address">New York City</div>
+        <div class="venue-panel__cta" style="justify-content:flex-end">
+          <a href="#reserve" class="btn btn--gold">Reserve Table</a>
+          <a href="#reserve" class="btn btn--outline">Buy Tickets</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">02</div>
+  </div>
+
+  <!-- PHD -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-phd"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content">
+        <div class="venue-panel__eyebrow eyebrow">Rooftop Lounge</div>
+        <h2 class="display-lg venue-panel__name">PHD</h2>
+        <p class="body-sm venue-panel__desc">Sky-high views, curated cocktails, and an atmosphere that sets the tone for the night. PHD Rooftop is where the city comes into focus.</p>
+        <div class="venue-panel__address">Dream Downtown — New York City</div>
+        <div class="venue-panel__cta">
+          <a href="#reserve" class="btn btn--gold">Reserve Table</a>
+          <a href="#reserve" class="btn btn--outline">Buy Tickets</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">03</div>
+  </div>
+
+  <!-- Petite -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-petite"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(270deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content" style="margin-left:auto;text-align:right">
+        <div class="venue-panel__eyebrow eyebrow">Intimate Venue</div>
+        <h2 class="display-lg venue-panel__name">Petite</h2>
+        <p class="body-sm venue-panel__desc">Small by design. Exclusive by nature. Petite is Dream's most intimate concept — curated nights, curated guests, no compromises.</p>
+        <div class="venue-panel__address">New York City</div>
+        <div class="venue-panel__cta" style="justify-content:flex-end">
+          <a href="#reserve" class="btn btn--gold">Reserve</a>
+          <a href="#reserve" class="btn btn--outline">Inquire</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">04</div>
+  </div>
+
+</div>
+
+<!-- ── RESTAURANTS ── -->
+<div id="restaurants">
+
+  <!-- Sei Less -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-seiless"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content">
+        <div class="venue-panel__eyebrow eyebrow">Asian Fusion — Restaurant & Speakeasy</div>
+        <h2 class="display-lg venue-panel__name">Sei Less</h2>
+        <p class="body-sm venue-panel__desc">Nestled behind an enigmatic mural in Midtown. Pan-Asian cuisine, craft cocktails, and an atmosphere that earns its reputation as the city's sexiest restaurant-speakeasy.</p>
+        <div class="venue-panel__address">156 W 38th Street — Midtown, NYC</div>
+        <div class="venue-panel__cta">
+          <a href="#reserve" class="btn btn--gold">Reserve a Table</a>
+          <a href="https://www.seiless.com/" target="_blank" class="btn btn--outline">Visit Site</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">05</div>
+  </div>
+
+  <!-- Pappas NY -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-pappas"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(270deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content" style="margin-left:auto;text-align:right">
+        <div class="venue-panel__eyebrow eyebrow">Greek Restaurant</div>
+        <h2 class="display-lg venue-panel__name">Pappas NY</h2>
+        <p class="body-sm venue-panel__desc">A love letter to Greek cuisine in the heart of Greenwich Village. Authentic flavors, elevated execution, and the warmth of a family table — without the compromise.</p>
+        <div class="venue-panel__address">Greenwich Village — New York City</div>
+        <div class="venue-panel__cta" style="justify-content:flex-end">
+          <a href="#reserve" class="btn btn--gold">Reserve a Table</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">06</div>
+  </div>
+
+  <!-- Tucci -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-tucci"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content">
+        <div class="venue-panel__eyebrow eyebrow">Italian Restaurant — NoHo</div>
+        <h2 class="display-lg venue-panel__name">Tucci<br>New York</h2>
+        <p class="body-sm venue-panel__desc">A NoHo Italian eatery built in partnership with the proprietors of Delmonico's. Regional Italian cooking with the quality and hospitality New York deserves.</p>
+        <div class="venue-panel__address">NoHo — New York City</div>
+        <div class="venue-panel__cta">
+          <a href="#reserve" class="btn btn--gold">Reserve a Table</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">07</div>
+  </div>
+
+  <!-- Gyro City -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-gyrocity"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(270deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content" style="margin-left:auto;text-align:right">
+        <div class="venue-panel__eyebrow eyebrow">Greek Fast Casual — 2 Locations</div>
+        <h2 class="display-lg venue-panel__name">Gyro City</h2>
+        <p class="body-sm venue-panel__desc">Not reinventing the gyro — respecting it. Organic ingredients, real cooking methods, and a hospitality-first mindset. Greenwich Village and Astoria.</p>
+        <div class="venue-panel__address">99 MacDougal St, Greenwich Village &nbsp;·&nbsp; Astoria, Queens</div>
+        <div class="venue-panel__cta" style="justify-content:flex-end">
+          <a href="#reserve" class="btn btn--gold">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">08</div>
+  </div>
+
+  <!-- Dank by Definition -->
+  <div class="venue-panel">
+    <div class="venue-panel__bg bg-dank"></div>
+    <div class="venue-panel__overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.4) 70%,transparent 100%)"></div>
+    <div class="venue-panel__inner">
+      <div class="venue-panel__content">
+        <div class="venue-panel__eyebrow eyebrow">Cannabis Brand & Events Partner</div>
+        <h2 class="display-lg venue-panel__name">Dank by<br>Definition</h2>
+        <p class="body-sm venue-panel__desc">New York's premium cannabis brand. Born in 2022 from the cannabis and hospitality worlds. Flower, edibles, concentrates, and vapes — built on the same standard as everything Dream touches.</p>
+        <div class="venue-panel__address">New York State — Available at select dispensaries</div>
+        <div class="venue-panel__cta">
+          <a href="https://www.dankbydefinition.com/" target="_blank" class="btn btn--gold">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="venue-panel__num">09</div>
+  </div>
+
+</div>
+
+<!-- ── RESERVE ── -->
+<section id="reserve" class="reserve">
   <div class="container">
-    <div class="section-label">Featured Packages</div>
-    <h2 style="margin-bottom: 12px;">Built for the moment.</h2>
-    <p style="margin-bottom: 48px; max-width: 540px;">Every package is curated for World Cup 2026. Select your experience below or let us handle everything end-to-end.</p>
-
-    <div class="grid-3" id="packages-grid">
-      <!-- loaded dynamically or static fallback -->
-      <div class="pkg-card">
-        <div class="pkg-card__img">🏟️</div>
-        <div class="pkg-card__body">
-          <div class="pkg-card__venue">MetLife Stadium — Group A</div>
-          <div class="pkg-card__name">Opening Match Suite</div>
-          <div class="pkg-card__desc">Private suite for 12, pre-match reception, on-field photo access.</div>
-          <div class="pkg-card__price">$18,500 <span>/ group</span></div>
-          <a href="/booking/" class="btn btn--gold btn--sm">Book Now</a>
+    <div class="reserve__inner">
+      <div>
+        <div class="eyebrow" style="margin-bottom:20px">Reservations & Inquiries</div>
+        <h2 class="display-md" style="margin-bottom:24px">Book your<br>experience.</h2>
+        <p class="body-lg" style="margin-bottom:48px">Whether it's a table for two at Sei Less or a full Harbor takeover — our team responds within hours.</p>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Phone</div>
+            <a href="tel:9145208150" style="color:var(--white);font-size:1.1rem">(914) 520-8150</a>
+          </div>
+          <div>
+            <div style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Email</div>
+            <a href="mailto:reservations@dreamhospitalitygroup.com" style="color:var(--white);font-size:1rem">reservations@dreamhospitalitygroup.com</a>
+          </div>
+          <div>
+            <div style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Instagram</div>
+            <a href="https://www.instagram.com/dreamhospitality/" target="_blank" style="color:var(--gold)">@dreamhospitality</a>
+          </div>
         </div>
       </div>
-      <div class="pkg-card">
-        <div class="pkg-card__img">🥂</div>
-        <div class="pkg-card__body">
-          <div class="pkg-card__venue">Midtown Manhattan</div>
-          <div class="pkg-card__name">Watch Party — Premium</div>
-          <div class="pkg-card__desc">Rooftop venue, open bar, 4K screens, 150-person capacity.</div>
-          <div class="pkg-card__price">$450 <span>/ person</span></div>
-          <a href="/booking/" class="btn btn--gold btn--sm">Book Now</a>
-        </div>
-      </div>
-      <div class="pkg-card">
-        <div class="pkg-card__img">🌆</div>
-        <div class="pkg-card__body">
-          <div class="pkg-card__venue">NYC Full Itinerary</div>
-          <div class="pkg-card__name">Full Tournament Package</div>
-          <div class="pkg-card__desc">Hotel, tickets, transfers, concierge for the full 39 nights.</div>
-          <div class="pkg-card__price">$85,000 <span>/ group</span></div>
-          <a href="#concierge" class="btn btn--outline btn--sm">Inquire</a>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center; margin-top: 48px;">
-      <a href="/booking/" class="btn btn--ghost">View All Packages</a>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- Concierge Lead Form -->
-<section id="concierge" class="section">
-  <div class="container">
-    <div class="section-label">A-List Access</div>
-    <h2 style="margin-bottom: 48px; text-align:center;">Apply for Concierge.</h2>
-
-    <div class="lead-form">
-      <h2>Request Access</h2>
-      <p>We review every application. Expect a response within 24 hours.</p>
-
-      <form id="lead-form">
-        <div class="grid-2">
+      <div class="reserve__form-wrap">
+        <form id="reserve-form">
           <div class="form-group">
             <label class="form-label">Full Name</label>
             <input class="form-input" type="text" name="name" placeholder="Your name" required />
@@ -277,38 +380,68 @@
             <label class="form-label">Email</label>
             <input class="form-input" type="email" name="email" placeholder="you@example.com" required />
           </div>
-        </div>
-        <div class="grid-2">
           <div class="form-group">
             <label class="form-label">Phone</label>
             <input class="form-input" type="tel" name="phone" placeholder="+1 (000) 000-0000" />
           </div>
           <div class="form-group">
-            <label class="form-label">Profile / Role</label>
-            <select class="form-select" name="profile">
-              <option value="">Select one</option>
-              <option>Athlete / Sports</option>
-              <option>Artist / Entertainment</option>
-              <option>Executive / Corporate</option>
-              <option>Other</option>
+            <label class="form-label">Venue</label>
+            <select class="form-select" name="venue">
+              <option value="">Select a venue</option>
+              <optgroup label="Nightlife">
+                <option>Harbor NYC</option>
+                <option>Nebula</option>
+                <option>PHD Rooftop</option>
+                <option>Petite</option>
+              </optgroup>
+              <optgroup label="Restaurants">
+                <option>Sei Less</option>
+                <option>Pappas NY</option>
+                <option>Tucci New York</option>
+                <option>Gyro City — Greenwich Village</option>
+                <option>Gyro City — Astoria</option>
+              </optgroup>
+              <optgroup label="Events">
+                <option>Private Event / Buyout</option>
+                <option>Dank by Definition Event</option>
+              </optgroup>
             </select>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Group Size</label>
-          <select class="form-select" name="group_size">
-            <option>Just me</option>
-            <option>2–5 people</option>
-            <option>6–15 people</option>
-            <option>16+ people</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tell us what you need</label>
-          <textarea class="form-textarea" name="notes" placeholder="Dates, venues, special requirements..."></textarea>
-        </div>
-        <button type="submit" class="btn btn--gold" style="width:100%" id="lead-submit">Request Access</button>
-      </form>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input class="form-input" type="date" name="date" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Party Size</label>
+              <input class="form-input" type="number" name="guests" min="1" placeholder="# guests" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <textarea class="form-textarea" name="notes" placeholder="Special requests, occasion, etc." style="min-height:80px"></textarea>
+          </div>
+          <button type="submit" class="btn btn--gold" style="width:100%;justify-content:center" id="reserve-btn">Send Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="about">
+  <div class="container">
+    <div class="about__inner">
+      <div>
+        <div class="about__line"></div>
+        <div class="eyebrow" style="margin-bottom:20px">The Story</div>
+        <h2 class="display-md" style="margin-bottom:32px">Built from the ground up.</h2>
+      </div>
+      <div>
+        <p class="about__body">Dream Hospitality Group was founded by George Karavias — a Greek-American with 18+ years in New York nightlife. What started as a promotional outfit in 2015 has grown into an empire: four nightclubs, four restaurant concepts, a cannabis brand, and a team that has redefined what hospitality means in this city.</p>
+        <p class="about__body">From Harbor to Sei Less, from Gyro City to Dank by Definition — every concept is built on the same foundation: intentionality, quality, and a genuine love for what New York City can be when the right people are in the room.</p>
+        <p style="font-size:0.84rem;color:var(--dim);font-style:italic">— George Karavias, Founder & President</p>
+      </div>
     </div>
   </div>
 </section>
@@ -316,43 +449,69 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="container">
-    <div class="footer__top">
-      <div class="footer__brand">Dream Hospitality Group</div>
-      <div class="footer__links">
-        <a href="/booking/">Packages</a>
-        <a href="#concierge">Concierge</a>
-        <a href="mailto:support@dreamhospitality.com">Contact</a>
-        <a href="/admin/">Staff</a>
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">Dream</div>
+        <p class="footer__tagline">New York City's premier hospitality group. Nightclubs, restaurants, and experiences built for those who demand the best.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Nightlife</div>
+        <ul class="footer__links">
+          <li><a href="#venues">Harbor NYC</a></li>
+          <li><a href="#venues">Nebula</a></li>
+          <li><a href="#venues">PHD Rooftop</a></li>
+          <li><a href="#venues">Petite</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Restaurants</div>
+        <ul class="footer__links">
+          <li><a href="#restaurants">Sei Less</a></li>
+          <li><a href="#restaurants">Pappas NY</a></li>
+          <li><a href="#restaurants">Tucci New York</a></li>
+          <li><a href="#restaurants">Gyro City</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Contact</div>
+        <ul class="footer__links">
+          <li><a href="tel:9145208150">(914) 520-8150</a></li>
+          <li><a href="mailto:reservations@dreamhospitalitygroup.com">Reservations</a></li>
+          <li><a href="https://www.instagram.com/dreamhospitality/" target="_blank">Instagram</a></li>
+          <li><a href="/admin/">Staff Portal</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer__bottom">
-      <span>© 2026 Dream Hospitality Group. All rights reserved.</span>
-      <span>World Cup 2026 — New York City</span>
+      <span class="footer__copy">© 2026 Dream Hospitality Group LLC. All rights reserved.</span>
+      <span class="footer__copy">New York City</span>
     </div>
   </div>
 </footer>
 
 <div id="toast-container"></div>
-
 <script src="/assets/js/api.js"></script>
 <script>
-  // Lead form submit
-  document.getElementById('lead-form').addEventListener('submit', async (e) => {
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reserve form
+  document.getElementById('reserve-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = document.getElementById('lead-submit');
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    const fd = new FormData(e.target);
-    const body = Object.fromEntries(fd.entries());
+    const btn = document.getElementById('reserve-btn');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    const body = Object.fromEntries(new FormData(e.target).entries());
     try {
       await API.post('/api/leads', body);
-      toast('Application received — we\'ll be in touch within 24 hours.', 'success');
+      toast('Request received — our team will be in touch within a few hours.', 'success');
       e.target.reset();
     } catch (err) {
       toast(err.message || 'Something went wrong.', 'error');
     } finally {
-      btn.disabled = false;
-      btn.textContent = 'Request Access';
+      btn.disabled = false; btn.textContent = 'Send Request';
     }
   });
 </script>
