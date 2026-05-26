@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book — Dream World Cup 2026</title>
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <style>
+    body { padding-top: 64px; }
+
+    .booking-hero {
+      background: linear-gradient(135deg, rgba(201,169,110,0.06) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0;
+    }
+    .booking-hero h1 { margin-bottom: 8px; }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 40px; align-items: center;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,169,110,0.08);
+    }
+
+    /* Package grid */
+    .pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+    .pkg-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .pkg-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .pkg-card__banner {
+      height: 180px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      position: relative;
+    }
+    .pkg-card__type {
+      position: absolute; top: 12px; left: 12px;
+    }
+    .pkg-card__body { padding: 20px; }
+    .pkg-card__venue { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px; }
+    .pkg-card__name { font-size: 1.1rem; margin-bottom: 8px; }
+    .pkg-card__desc { font-size: 0.875rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+    .pkg-card__footer { display: flex; align-items: center; justify-content: space-between; }
+    .pkg-card__price { font-size: 1.4rem; color: var(--accent); }
+    .pkg-card__price small { font-size: 0.75rem; color: var(--muted); }
+    .pkg-card__capacity { font-size: 0.78rem; color: var(--muted); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(6,5,4,0.85);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 600px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(20px);
+      transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal__header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal__close { background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
+    .modal__close:hover { color: var(--text); }
+    .modal__body { padding: 28px; }
+    .modal__title { font-size: 1.3rem; }
+    .modal__venue { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .summary-row:last-child { border-bottom: none; font-weight: 600; }
+    .summary-row span:first-child { color: var(--muted); }
+    .summary-row span:last-child { color: var(--text); }
+    .summary-total span:last-child { color: var(--accent); font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">Dream</a>
+    <div class="nav__links">
+      <a href="/">Home</a>
+      <a href="#" style="color:var(--accent)">Packages</a>
+      <a href="/#concierge">Concierge</a>
+    </div>
+  </div>
+</nav>
+
+<div class="booking-hero">
+  <div class="container">
+    <div class="mono" style="margin-bottom:12px">World Cup 2026 — NYC</div>
+    <h1>Find your <span class="accent">experience.</span></h1>
+    <p>Curated hospitality packages for every type of fan.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <span style="font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="suite">Suites</button>
+      <button class="filter-btn" data-filter="watch-party">Watch Parties</button>
+      <button class="filter-btn" data-filter="bundle">Full Packages</button>
+      <button class="filter-btn" data-filter="vip">VIP / Lounge</button>
+    </div>
+
+    <!-- Packages grid -->
+    <div class="pkg-grid" id="pkg-grid">
+
+      <div class="pkg-card" data-type="suite" onclick="openModal(this)">
+        <div class="pkg-card__banner">🏟️
+          <span class="pkg-card__type"><span class="badge badge--gold">Suite</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">MetLife Stadium</div>
+          <div class="pkg-card__name">Opening Match Suite</div>
+          <div class="pkg-card__desc">Private suite for 12 guests. Pre-match reception, premium catering, dedicated host, on-field photo access.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$18,500 <small>/ group</small></div>
+            <div class="pkg-card__capacity">Up to 12 guests</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-card" data-type="watch-party" onclick="openModal(this)">
+        <div class="pkg-card__banner">🥂
+          <span class="pkg-card__type"><span class="badge badge--green">Watch Party</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">Midtown Manhattan — Rooftop</div>
+          <div class="pkg-card__name">Premium Watch Party</div>
+          <div class="pkg-card__desc">Rooftop venue with skyline views, open bar, premium food stations, 4K screens, live DJ.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$450 <small>/ person</small></div>
+            <div class="pkg-card__capacity">1–150 guests</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-card" data-type="vip" onclick="openModal(this)">
+        <div class="pkg-card__banner">✦
+          <span class="pkg-card__type"><span class="badge badge--gold">VIP Lounge</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">MetLife Stadium</div>
+          <div class="pkg-card__name">Club-Level VIP</div>
+          <div class="pkg-card__desc">Club-level seats with lounge access, premium bar, valet parking, and dedicated check-in.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$2,800 <small>/ person</small></div>
+            <div class="pkg-card__capacity">Per person</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-card" data-type="bundle" onclick="openModal(this)">
+        <div class="pkg-card__banner">🌆
+          <span class="pkg-card__type"><span class="badge badge--gold">Full Package</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">NYC — Full Tournament</div>
+          <div class="pkg-card__name">Complete Tournament Experience</div>
+          <div class="pkg-card__desc">Hotel, tickets, ground transfers, concierge support for all 39 nights. The full Dream experience.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$85,000 <small>/ group</small></div>
+            <div class="pkg-card__capacity">Custom sizing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-card" data-type="watch-party" onclick="openModal(this)">
+        <div class="pkg-card__banner">🎉
+          <span class="pkg-card__type"><span class="badge badge--green">Watch Party</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">Brooklyn — Waterfront</div>
+          <div class="pkg-card__name">Brooklyn Waterfront Party</div>
+          <div class="pkg-card__desc">Waterfront venue with Manhattan views, signature cocktails, stadium big screens, 300-cap.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$280 <small>/ person</small></div>
+            <div class="pkg-card__capacity">Up to 300 guests</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-card" data-type="suite" onclick="openModal(this)">
+        <div class="pkg-card__banner">🏆
+          <span class="pkg-card__type"><span class="badge badge--gold">Suite</span></span>
+        </div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">MetLife Stadium — Final</div>
+          <div class="pkg-card__name">World Cup Final Suite</div>
+          <div class="pkg-card__desc">The most exclusive package. Private suite for the Final with chef, butler, and post-match access.</div>
+          <div class="pkg-card__footer">
+            <div class="pkg-card__price">$95,000 <small>/ group</small></div>
+            <div class="pkg-card__capacity">Up to 20 guests</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal__header">
+      <div>
+        <div class="modal__venue" id="modal-venue"></div>
+        <div class="modal__title" id="modal-title"></div>
+      </div>
+      <button class="modal__close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal__body">
+      <form id="booking-form">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" name="first_name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" name="last_name" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" name="phone" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Guests</label>
+          <input class="form-input" type="number" name="guest_count" min="1" max="500" value="1" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requests</label>
+          <textarea class="form-textarea" name="notes" placeholder="Dietary requirements, accessibility needs, etc." style="min-height:80px"></textarea>
+        </div>
+
+        <div class="card" style="margin-bottom:20px">
+          <div class="summary-row"><span>Package</span><span id="sum-pkg">—</span></div>
+          <div class="summary-row"><span>Venue</span><span id="sum-venue">—</span></div>
+          <div class="summary-row summary-total"><span>Price</span><span id="sum-price">—</span></div>
+        </div>
+
+        <button type="submit" class="btn btn--gold" style="width:100%" id="booking-submit">Request Booking</button>
+        <p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:12px">You won't be charged now. A concierge will confirm details.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="/assets/js/api.js"></script>
+<script>
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.pkg-card').forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.type === filter) ? '' : 'none';
+      });
+    });
+  });
+
+  // Modal
+  let currentPkg = {};
+  function openModal(card) {
+    const venue = card.querySelector('.pkg-card__venue').textContent;
+    const name  = card.querySelector('.pkg-card__name').textContent;
+    const price = card.querySelector('.pkg-card__price').textContent.trim();
+    currentPkg = { venue, name, price };
+    document.getElementById('modal-venue').textContent = venue;
+    document.getElementById('modal-title').textContent = name;
+    document.getElementById('sum-pkg').textContent = name;
+    document.getElementById('sum-venue').textContent = venue;
+    document.getElementById('sum-price').textContent = price;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById('modal-overlay')) return;
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Booking form
+  document.getElementById('booking-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('booking-submit');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    const fd = new FormData(e.target);
+    const body = { ...Object.fromEntries(fd.entries()), package_name: currentPkg.name, venue: currentPkg.venue };
+    try {
+      await API.post('/api/bookings', body);
+      toast('Booking request received! We\'ll confirm within 2 hours.', 'success');
+      e.target.reset();
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    } catch (err) {
+      toast(err.message || 'Something went wrong.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Request Booking';
+    }
+  });
+</script>
+</body>
+</html>

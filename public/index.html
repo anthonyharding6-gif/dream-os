@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dream — World Cup 2026 | VIP Hospitality NYC</title>
+  <meta name="description" content="39 nights. 10 venues. A-list concierge across NYC. The destination before, during, and after every match." />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,169,110,0.07) 0%, transparent 60%),
+                  url('/assets/img/hero-bg.jpg') center/cover no-repeat;
+      position: relative;
+      padding-top: 64px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(6,5,4,0.85) 0%, rgba(6,5,4,0.5) 100%);
+    }
+    .hero__content { position: relative; max-width: 720px; }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
+      font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .hero__eyebrow::before {
+      content: ''; display: block;
+      width: 32px; height: 1px; background: var(--accent);
+    }
+    .hero h1 { margin-bottom: 24px; }
+    .hero p.lead {
+      font-size: 1.2rem; color: #c0b4a4;
+      max-width: 540px; margin-bottom: 40px;
+    }
+    .hero__cta { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero__stats {
+      position: absolute; bottom: 48px; left: 0; right: 0;
+      display: flex; gap: 0;
+      max-width: 720px;
+    }
+    .hero__stat {
+      flex: 1; padding: 20px 24px;
+      border-top: 1px solid rgba(201,169,110,0.3);
+    }
+    .hero__stat-value { font-size: 2rem; color: var(--accent); line-height: 1; }
+    .hero__stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
+
+    /* ── Split ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
+    .split__panel {
+      background: var(--surface);
+      padding: 64px 48px;
+      position: relative; overflow: hidden;
+    }
+    .split__panel--vip { background: var(--surface2); }
+    .split__panel::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--border);
+    }
+    .split__panel--vip::before { background: var(--accent); }
+    .split__icon { font-size: 2rem; margin-bottom: 20px; }
+    .split__title { font-size: 1.5rem; margin-bottom: 12px; }
+    .split__text { margin-bottom: 32px; }
+    .split__features { list-style: none; margin-bottom: 36px; }
+    .split__features li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem; color: #b0a898;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .split__features li::before { content: '—'; color: var(--accent); }
+    @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+
+    /* ── Packages ── */
+    .pkg-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pkg-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .pkg-card__img {
+      width: 100%; height: 200px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .pkg-card__body { padding: 20px; }
+    .pkg-card__venue { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    .pkg-card__name { font-size: 1.1rem; margin-bottom: 8px; }
+    .pkg-card__desc { font-size: 0.875rem; color: var(--muted); margin-bottom: 16px; }
+    .pkg-card__price { font-size: 1.5rem; color: var(--accent); margin-bottom: 16px; }
+    .pkg-card__price span { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── Lead form ── */
+    .lead-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      max-width: 640px; margin: 0 auto;
+    }
+    .lead-form h2 { margin-bottom: 8px; }
+    .lead-form > p { margin-bottom: 32px; }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 40px 0 24px;
+    }
+    .footer__top { display: flex; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 24px; }
+    .footer__brand { font-size: 1.2rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
+    .footer__links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer__links a { color: var(--muted); font-size: 0.875rem; }
+    .footer__bottom { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.8rem; flex-wrap: wrap; gap: 8px; }
+
+    /* ── Section label ── */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--accent); opacity: 0.3; min-width: 40px; }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">Dream</a>
+    <div class="nav__links">
+      <a href="#packages">Packages</a>
+      <a href="#concierge">Concierge</a>
+      <a href="/booking/">Book Now</a>
+      <a href="/admin/" class="btn btn--outline btn--sm">Staff Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__eyebrow">World Cup 2026 — New York City</div>
+      <h1>The destination <span class="accent">before, during,<br>and after</span> every match.</h1>
+      <p class="lead">39 nights. 10 venues. Dream delivers the full experience — private suites, pitch-side access, and white-glove concierge for athletes, artists, and the people who matter.</p>
+      <div class="hero__cta">
+        <a href="/booking/" class="btn btn--gold btn--lg">Browse Packages</a>
+        <a href="#concierge" class="btn btn--outline btn--lg">Apply for Concierge</a>
+      </div>
+    </div>
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <div class="hero__stat-value">39</div>
+        <div class="hero__stat-label">Tournament Nights</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-value">10</div>
+        <div class="hero__stat-label">NYC Venues</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-value">A-List</div>
+        <div class="hero__stat-label">Concierge Tier</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Split: Public vs VIP -->
+<section id="options">
+  <div class="split">
+    <div class="split__panel">
+      <div class="split__icon">🎟️</div>
+      <div class="split__title">Public Booking</div>
+      <p class="split__text">Browse and book curated World Cup hospitality packages directly. Tickets, suites, watch parties, and premium dining — available to everyone.</p>
+      <ul class="split__features">
+        <li>Match ticket packages</li>
+        <li>Premium watch party access</li>
+        <li>Group suites & VIP lounges</li>
+        <li>Hotel + experience bundles</li>
+        <li>Instant confirmation</li>
+      </ul>
+      <a href="/booking/" class="btn btn--ghost">Browse Packages</a>
+    </div>
+    <div class="split__panel split__panel--vip">
+      <div class="split__icon">✦</div>
+      <div class="split__title">A-List Concierge</div>
+      <p class="split__text">For athletes, artists, and executives. One dedicated concierge. Zero coordination headaches. Every detail handled before you ask.</p>
+      <ul class="split__features">
+        <li>Dedicated personal concierge</li>
+        <li>Private jet & ground coordination</li>
+        <li>After-party & venue access</li>
+        <li>Real-time presence & scheduling</li>
+        <li>24/7 direct line</li>
+      </ul>
+      <a href="#concierge" class="btn btn--gold">Apply for Access</a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Packages -->
+<section id="packages" class="section">
+  <div class="container">
+    <div class="section-label">Featured Packages</div>
+    <h2 style="margin-bottom: 12px;">Built for the moment.</h2>
+    <p style="margin-bottom: 48px; max-width: 540px;">Every package is curated for World Cup 2026. Select your experience below or let us handle everything end-to-end.</p>
+
+    <div class="grid-3" id="packages-grid">
+      <!-- loaded dynamically or static fallback -->
+      <div class="pkg-card">
+        <div class="pkg-card__img">🏟️</div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">MetLife Stadium — Group A</div>
+          <div class="pkg-card__name">Opening Match Suite</div>
+          <div class="pkg-card__desc">Private suite for 12, pre-match reception, on-field photo access.</div>
+          <div class="pkg-card__price">$18,500 <span>/ group</span></div>
+          <a href="/booking/" class="btn btn--gold btn--sm">Book Now</a>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-card__img">🥂</div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">Midtown Manhattan</div>
+          <div class="pkg-card__name">Watch Party — Premium</div>
+          <div class="pkg-card__desc">Rooftop venue, open bar, 4K screens, 150-person capacity.</div>
+          <div class="pkg-card__price">$450 <span>/ person</span></div>
+          <a href="/booking/" class="btn btn--gold btn--sm">Book Now</a>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-card__img">🌆</div>
+        <div class="pkg-card__body">
+          <div class="pkg-card__venue">NYC Full Itinerary</div>
+          <div class="pkg-card__name">Full Tournament Package</div>
+          <div class="pkg-card__desc">Hotel, tickets, transfers, concierge for the full 39 nights.</div>
+          <div class="pkg-card__price">$85,000 <span>/ group</span></div>
+          <a href="#concierge" class="btn btn--outline btn--sm">Inquire</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 48px;">
+      <a href="/booking/" class="btn btn--ghost">View All Packages</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- Concierge Lead Form -->
+<section id="concierge" class="section">
+  <div class="container">
+    <div class="section-label">A-List Access</div>
+    <h2 style="margin-bottom: 48px; text-align:center;">Apply for Concierge.</h2>
+
+    <div class="lead-form">
+      <h2>Request Access</h2>
+      <p>We review every application. Expect a response within 24 hours.</p>
+
+      <form id="lead-form">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input class="form-input" type="tel" name="phone" placeholder="+1 (000) 000-0000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Profile / Role</label>
+            <select class="form-select" name="profile">
+              <option value="">Select one</option>
+              <option>Athlete / Sports</option>
+              <option>Artist / Entertainment</option>
+              <option>Executive / Corporate</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Group Size</label>
+          <select class="form-select" name="group_size">
+            <option>Just me</option>
+            <option>2–5 people</option>
+            <option>6–15 people</option>
+            <option>16+ people</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell us what you need</label>
+          <textarea class="form-textarea" name="notes" placeholder="Dates, venues, special requirements..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--gold" style="width:100%" id="lead-submit">Request Access</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">Dream Hospitality Group</div>
+      <div class="footer__links">
+        <a href="/booking/">Packages</a>
+        <a href="#concierge">Concierge</a>
+        <a href="mailto:support@dreamhospitality.com">Contact</a>
+        <a href="/admin/">Staff</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Dream Hospitality Group. All rights reserved.</span>
+      <span>World Cup 2026 — New York City</span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<script src="/assets/js/api.js"></script>
+<script>
+  // Lead form submit
+  document.getElementById('lead-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('lead-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    const fd = new FormData(e.target);
+    const body = Object.fromEntries(fd.entries());
+    try {
+      await API.post('/api/leads', body);
+      toast('Application received — we\'ll be in touch within 24 hours.', 'success');
+      e.target.reset();
+    } catch (err) {
+      toast(err.message || 'Something went wrong.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Request Access';
+    }
+  });
+</script>
+</body>
+</html>

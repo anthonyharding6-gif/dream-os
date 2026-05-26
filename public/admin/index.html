@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Dream OS</title>
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <style>
+    /* Login screen */
+    .login-screen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,169,110,0.06) 0%, transparent 60%);
+      padding: 24px;
+    }
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      width: 100%; max-width: 420px;
+    }
+    .login-logo { font-size: 1.4rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+    .login-sub  { color: var(--muted); font-size: 0.85rem; margin-bottom: 32px; }
+
+    /* Dashboard */
+    .dashboard { display: none; }
+
+    /* Stats row */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .stat-card__value { font-size: 2rem; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+    .stat-card__label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .stat-card__delta { font-size: 0.78rem; color: var(--success); margin-top: 4px; }
+
+    /* Clients with presence */
+    .client-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .client-row:last-child { border-bottom: none; }
+    .client-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+      position: relative;
+    }
+    .client-avatar .dot {
+      position: absolute; bottom: 1px; right: 1px;
+      width: 10px; height: 10px;
+      border: 2px solid var(--surface);
+    }
+    .client-info { flex: 1; min-width: 0; }
+    .client-name { font-size: 0.95rem; }
+    .client-meta { font-size: 0.78rem; color: var(--muted); }
+    .client-status { font-size: 0.78rem; }
+
+    /* Pipeline kanban */
+    .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 1100px) { .kanban { grid-template-columns: 1fr 1fr; } }
+    .kanban-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .kanban-col__header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .kanban-col__body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .kanban-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .kanban-item__name { font-size: 0.875rem; margin-bottom: 4px; }
+    .kanban-item__meta { font-size: 0.75rem; color: var(--muted); }
+
+    /* Bookings table */
+    .status-pill { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .status-pill--pending  { background: rgba(201,169,110,0.15); color: var(--accent); }
+    .status-pill--confirmed { background: rgba(39,174,96,0.15); color: #27ae60; }
+    .status-pill--cancelled { background: rgba(192,57,43,0.15); color: #e74c3c; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .topbar__greeting { font-size: 1.4rem; }
+    .topbar__actions { display: flex; gap: 12px; }
+
+    /* Section header */
+    .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-hdr h3 { font-size: 1rem; font-weight: 400; }
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Dream OS</div>
+    <div class="login-sub">Admin / Concierge Portal</div>
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" name="email" placeholder="you@dream.com" required autofocus />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" name="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn--gold" style="width:100%;margin-top:8px" id="login-btn">Sign In</button>
+      <p id="login-error" style="color:var(--danger);font-size:0.85rem;text-align:center;margin-top:12px;display:none"></p>
+    </form>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div class="app-layout dashboard" id="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">Dream OS</div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__item active" onclick="showTab('overview')">
+        <span class="sidebar__icon">◈</span> Overview
+      </div>
+      <div class="sidebar__item" onclick="showTab('clients')">
+        <span class="sidebar__icon">◉</span> Clients
+      </div>
+      <div class="sidebar__item" onclick="showTab('bookings')">
+        <span class="sidebar__icon">◻</span> Bookings
+      </div>
+      <div class="sidebar__item" onclick="showTab('leads')">
+        <span class="sidebar__icon">◎</span> Leads
+      </div>
+      <div class="sidebar__item" onclick="showTab('pipeline')">
+        <span class="sidebar__icon">◈</span> Pipeline
+      </div>
+      <div class="sidebar__item" onclick="showTab('packages')">
+        <span class="sidebar__icon">◐</span> Packages
+      </div>
+    </nav>
+    <div class="sidebar__footer">
+      <button class="btn btn--ghost btn--sm" onclick="logout()" style="width:100%">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- OVERVIEW TAB -->
+    <div id="tab-overview">
+      <div class="topbar">
+        <div class="topbar__greeting">Good morning, <span class="accent" id="user-name">—</span></div>
+        <div class="topbar__actions">
+          <span class="mono" id="current-date"></span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-clients">—</div>
+          <div class="stat-card__label">Active Clients</div>
+          <div class="stat-card__delta">↑ 3 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-bookings">—</div>
+          <div class="stat-card__label">Bookings</div>
+          <div class="stat-card__delta">↑ 8 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-leads">—</div>
+          <div class="stat-card__label">Open Leads</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value" id="stat-revenue">—</div>
+          <div class="stat-card__label">Revenue (est.)</div>
+          <div class="stat-card__delta">↑ $42K this week</div>
+        </div>
+      </div>
+
+      <!-- Clients presence + recent bookings -->
+      <div class="grid-2" style="gap:24px">
+        <div>
+          <div class="section-hdr"><h3>Client Presence</h3><a href="#" onclick="showTab('clients')" style="font-size:0.8rem">View all</a></div>
+          <div class="card card--flat" id="presence-list">
+            <div style="padding:40px;text-align:center"><div class="loader"></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-hdr"><h3>Recent Bookings</h3><a href="#" onclick="showTab('bookings')" style="font-size:0.8rem">View all</a></div>
+          <div class="card card--flat" id="recent-bookings">
+            <div style="padding:40px;text-align:center"><div class="loader"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTS TAB -->
+    <div id="tab-clients" style="display:none">
+      <div class="page-header">
+        <div class="page-title">Clients</div>
+        <p style="color:var(--muted);font-size:0.9rem">A-list concierge clients with live presence tracking</p>
+      </div>
+      <div class="card card--flat">
+        <div id="clients-list"><div style="padding:40px;text-align:center"><div class="loader"></div></div></div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS TAB -->
+    <div id="tab-bookings" style="display:none">
+      <div class="page-header"><div class="page-title">Bookings</div></div>
+      <div class="card card--flat table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Guest</th><th>Package</th><th>Venue</th><th>Guests</th><th>Status</th><th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="bookings-tbody">
+            <tr><td colspan="6" style="text-align:center;padding:40px"><div class="loader"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEADS TAB -->
+    <div id="tab-leads" style="display:none">
+      <div class="page-header"><div class="page-title">Concierge Leads</div></div>
+      <div class="card card--flat table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Profile</th><th>Group</th><th>Notes</th><th>Submitted</th><th>Action</th></tr>
+          </thead>
+          <tbody id="leads-tbody">
+            <tr><td colspan="6" style="text-align:center;padding:40px"><div class="loader"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PIPELINE TAB -->
+    <div id="tab-pipeline" style="display:none">
+      <div class="page-header"><div class="page-title">Artist Pipeline</div></div>
+      <div class="kanban" id="kanban-board">
+        <div class="kanban-col">
+          <div class="kanban-col__header"><span>Prospect</span><span class="badge badge--gray">0</span></div>
+          <div class="kanban-col__body" id="stage-prospect"></div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col__header"><span>Outreach</span><span class="badge badge--gray">0</span></div>
+          <div class="kanban-col__body" id="stage-outreach"></div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col__header"><span>Negotiation</span><span class="badge badge--gold">0</span></div>
+          <div class="kanban-col__body" id="stage-negotiation"></div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col__header"><span>Booked</span><span class="badge badge--green">0</span></div>
+          <div class="kanban-col__body" id="stage-booked"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PACKAGES TAB -->
+    <div id="tab-packages" style="display:none">
+      <div class="page-header"><div class="page-title">Packages</div></div>
+      <div class="card card--flat table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Venue</th><th>Price</th><th>Capacity</th><th>Status</th></tr></thead>
+          <tbody id="packages-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:40px"><div class="loader"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="toast-container"></div>
+<script src="/assets/js/api.js"></script>
+<script>
+  const tabs = ['overview','clients','bookings','leads','pipeline','packages'];
+  function showTab(name) {
+    tabs.forEach(t => {
+      document.getElementById(`tab-${t}`).style.display = t === name ? '' : 'none';
+    });
+    document.querySelectorAll('.sidebar__item').forEach(el => {
+      el.classList.toggle('active', el.textContent.trim().toLowerCase().startsWith(name));
+    });
+    loadTab(name);
+  }
+
+  const loaded = new Set();
+  async function loadTab(name) {
+    if (loaded.has(name)) return;
+    loaded.add(name);
+    try {
+      if (name === 'overview') await loadOverview();
+      if (name === 'clients')  await loadClients();
+      if (name === 'bookings') await loadBookings();
+      if (name === 'leads')    await loadLeads();
+      if (name === 'packages') await loadPackages();
+    } catch {}
+  }
+
+  async function loadOverview() {
+    // Stats — use real API when DB is wired; show placeholders for now
+    document.getElementById('stat-clients').textContent  = '—';
+    document.getElementById('stat-bookings').textContent = '—';
+    document.getElementById('stat-leads').textContent    = '—';
+    document.getElementById('stat-revenue').textContent  = '—';
+
+    // Presence
+    document.getElementById('presence-list').innerHTML = `
+      <div class="client-row">
+        <div class="client-avatar">🏀<span class="dot dot--live"></span></div>
+        <div class="client-info"><div class="client-name">Marcus J.</div><div class="client-meta">NBA — Suite Request Pending</div></div>
+        <div class="client-status"><span class="badge badge--green">Live</span></div>
+      </div>
+      <div class="client-row">
+        <div class="client-avatar">🎵<span class="dot dot--away"></span></div>
+        <div class="client-info"><div class="client-name">DJ Karim</div><div class="client-meta">Entertainment — Full Package</div></div>
+        <div class="client-status"><span class="badge badge--gray">Away</span></div>
+      </div>
+      <div class="client-row">
+        <div class="client-avatar">⚽<span class="dot dot--live"></span></div>
+        <div class="client-info"><div class="client-name">Carlos R.</div><div class="client-meta">Athlete — VIP Lounge x4</div></div>
+        <div class="client-status"><span class="badge badge--green">Live</span></div>
+      </div>
+    `;
+
+    // Recent bookings
+    document.getElementById('recent-bookings').innerHTML = `
+      <table style="width:100%">
+        <tbody>
+          <tr>
+            <td style="padding:14px 16px">Opening Match Suite</td>
+            <td style="padding:14px 16px"><span class="status-pill status-pill--confirmed">Confirmed</span></td>
+            <td style="padding:14px 16px;color:var(--muted);font-size:0.85rem">$18,500</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 16px">Brooklyn Watch Party</td>
+            <td style="padding:14px 16px"><span class="status-pill status-pill--pending">Pending</span></td>
+            <td style="padding:14px 16px;color:var(--muted);font-size:0.85rem">$2,800</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 16px">Club VIP — 2 tickets</td>
+            <td style="padding:14px 16px"><span class="status-pill status-pill--confirmed">Confirmed</span></td>
+            <td style="padding:14px 16px;color:var(--muted);font-size:0.85rem">$5,600</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+  }
+
+  async function loadClients() {
+    document.getElementById('clients-list').innerHTML = `
+      <div class="client-row">
+        <div class="client-avatar">🏀<span class="dot dot--live"></span></div>
+        <div class="client-info"><div class="client-name">Marcus J.</div><div class="client-meta">NBA Player · Suite · Active</div></div>
+        <span class="badge badge--green">Live</span>
+      </div>
+      <div class="client-row">
+        <div class="client-avatar">⚽<span class="dot dot--live"></span></div>
+        <div class="client-info"><div class="client-name">Carlos R.</div><div class="client-meta">Pro Athlete · VIP Lounge · Active</div></div>
+        <span class="badge badge--green">Live</span>
+      </div>
+      <div class="client-row">
+        <div class="client-avatar">🎵<span class="dot dot--away"></span></div>
+        <div class="client-info"><div class="client-name">DJ Karim</div><div class="client-meta">Entertainment · Full Package · Away</div></div>
+        <span class="badge badge--gray">Away</span>
+      </div>
+      <div style="padding:16px 20px;border-top:1px solid var(--border);font-size:0.8rem;color:var(--muted)">Connect to Neon DB to see live client data.</div>
+    `;
+  }
+
+  async function loadBookings() {
+    document.getElementById('bookings-tbody').innerHTML = `
+      <tr><td>Sarah M.</td><td>Opening Match Suite</td><td>MetLife Stadium</td><td>12</td><td><span class="status-pill status-pill--confirmed">Confirmed</span></td><td style="color:var(--muted)">Jun 12, 2026</td></tr>
+      <tr><td>Group — Tech Summit</td><td>Brooklyn Watch Party</td><td>Brooklyn Waterfront</td><td>40</td><td><span class="status-pill status-pill--pending">Pending</span></td><td style="color:var(--muted)">Jun 18, 2026</td></tr>
+      <tr><td>Marcus J.</td><td>Club-Level VIP</td><td>MetLife Stadium</td><td>4</td><td><span class="status-pill status-pill--confirmed">Confirmed</span></td><td style="color:var(--muted)">Jun 22, 2026</td></tr>
+      <tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:0.8rem;padding:16px">Connect to Neon DB to see live booking data.</td></tr>
+    `;
+  }
+
+  async function loadLeads() {
+    document.getElementById('leads-tbody').innerHTML = `
+      <tr><td>James T.</td><td>Athlete / Sports</td><td>2–5 people</td><td style="color:var(--muted);font-size:0.85rem">Needs full tournament + jet</td><td style="color:var(--muted)">Today</td><td><button class="btn btn--ghost btn--sm">Review</button></td></tr>
+      <tr><td>Priya K.</td><td>Executive</td><td>16+ people</td><td style="color:var(--muted);font-size:0.85rem">Corporate hospitality block</td><td style="color:var(--muted)">Yesterday</td><td><button class="btn btn--ghost btn--sm">Review</button></td></tr>
+      <tr><td colspan="6" style="text-align:center;color:var(--muted);font-size:0.8rem;padding:16px">Connect to Neon DB to see live lead data.</td></tr>
+    `;
+  }
+
+  async function loadPackages() {
+    document.getElementById('packages-tbody').innerHTML = `
+      <tr><td>Opening Match Suite</td><td>MetLife Stadium</td><td>$18,500</td><td>12</td><td><span class="badge badge--green">Active</span></td></tr>
+      <tr><td>Premium Watch Party</td><td>Midtown Rooftop</td><td>$450 / person</td><td>150</td><td><span class="badge badge--green">Active</span></td></tr>
+      <tr><td>Club-Level VIP</td><td>MetLife Stadium</td><td>$2,800 / person</td><td>Unlimited</td><td><span class="badge badge--green">Active</span></td></tr>
+      <tr><td>Full Tournament Package</td><td>NYC</td><td>$85,000</td><td>Custom</td><td><span class="badge badge--gold">VIP Only</span></td></tr>
+      <tr><td>World Cup Final Suite</td><td>MetLife Stadium</td><td>$95,000</td><td>20</td><td><span class="badge badge--gold">VIP Only</span></td></tr>
+    `;
+  }
+
+  // Login
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const err = document.getElementById('login-error');
+    btn.disabled = true; btn.textContent = 'Signing in...';
+    err.style.display = 'none';
+    const fd = new FormData(e.target);
+    try {
+      const data = await API.post('/api/auth/login', Object.fromEntries(fd.entries()));
+      showDashboard(data.user);
+    } catch (e) {
+      err.textContent = e.message || 'Invalid credentials.';
+      err.style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Sign In';
+    }
+  });
+
+  async function logout() {
+    await API.post('/api/auth/logout').catch(() => {});
+    location.reload();
+  }
+
+  function showDashboard(user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'flex';
+    document.getElementById('user-name').textContent = user?.email?.split('@')[0] || 'Admin';
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+    loadTab('overview');
+  }
+
+  // Check session on load
+  (async () => {
+    try {
+      const data = await API.get('/api/auth/me');
+      if (data.user) showDashboard(data.user);
+    } catch {}
+  })();
+</script>
+</body>
+</html>
