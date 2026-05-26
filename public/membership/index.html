@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Membership — Dream Hospitality Group</title>
+  <meta name="description" content="Access the Dream Members Club. Curated events, concierge services, and invitation-only experiences across New York City." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Cursor */
+    .cursor {
+      position: fixed; width: 8px; height: 8px;
+      background: #fff; border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .3s, height .3s;
+      mix-blend-mode: difference;
+    }
+    .cursor.hover { width: 44px; height: 44px; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 56px;
+      background: transparent;
+      transition: all .4s;
+    }
+    nav.compact {
+      padding: 16px 56px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300; letter-spacing: 0.1em;
+    }
+    .nav-back {
+      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); transition: color .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-back:hover { color: #fff; }
+    .nav-back::before { content: '←'; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .hero-video video {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw;
+      min-height: 100vh; min-width: 177.78vh;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.35) saturate(0.6);
+    }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; padding: 0 24px; }
+    .hero-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300; letter-spacing: 0.03em; line-height: 1;
+      margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: rgba(255,255,255,0.7); }
+    .hero-sub {
+      font-size: 0.9rem; font-weight: 300; color: rgba(255,255,255,0.4);
+      max-width: 440px; margin: 0 auto 48px; line-height: 1.8;
+    }
+    .hero-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* Scroll line */
+    .scroll-line {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 80px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
+    }
+
+    /* Section */
+    .section { padding: 120px 0; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 56px; }
+    @media(max-width:640px){ .container { padding: 0 24px; } }
+
+    /* Intro strip */
+    .intro-strip {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 64px 0;
+      text-align: center;
+    }
+    .intro-strip p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 300; line-height: 1.6;
+      color: rgba(255,255,255,0.65);
+      max-width: 760px; margin: 0 auto;
+    }
+    .intro-strip p em { font-style: italic; color: #fff; }
+
+    /* Tiers */
+    .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06); }
+    @media(max-width:768px) { .tiers { grid-template-columns: 1fr; } }
+
+    .tier {
+      background: #000;
+      padding: 72px 64px;
+      position: relative;
+      transition: background .3s;
+    }
+    @media(max-width:640px) { .tier { padding: 48px 28px; } }
+    .tier:hover { background: #0a0a0a; }
+
+    .tier--black { background: #070707; }
+    .tier--black::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #C9A96E, transparent);
+    }
+    .tier-label {
+      font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); margin-bottom: 12px;
+    }
+    .tier-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; line-height: 1;
+      margin-bottom: 8px;
+    }
+    .tier-sub {
+      font-size: 0.82rem; color: rgba(255,255,255,0.3); margin-bottom: 48px;
+      font-style: italic;
+    }
+    .tier-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 40px; }
+    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 18px; margin-bottom: 56px; }
+    .tier-features li {
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 0.875rem; font-weight: 300; color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+    .tier-features li::before {
+      content: '—'; color: rgba(255,255,255,0.2);
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .tier--black .tier-features li { color: rgba(255,255,255,0.65); }
+    .tier--black .tier-features li::before { color: #C9A96E; }
+
+    /* Buttons */
+    .btn-join {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+      transition: all .25s; cursor: pointer; font-family: inherit; border: none;
+    }
+    .btn-join--white { background: #fff; color: #000; }
+    .btn-join--white:hover { background: rgba(255,255,255,0.88); }
+    .btn-join--gold { background: #C9A96E; color: #000; }
+    .btn-join--gold:hover { background: #d4b47a; }
+    .btn-join--border { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .btn-join--border:hover { border-color: #fff; }
+
+    /* Invitation only badge */
+    .invite-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 100px;
+      border: 1px solid rgba(201,169,110,0.3);
+      background: rgba(201,169,110,0.06);
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #C9A96E; margin-bottom: 32px;
+    }
+    .invite-badge::before { content: '✦'; font-size: 0.55rem; }
+
+    /* Perks grid */
+    .perks {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.06);
+    }
+    @media(max-width:768px){ .perks { grid-template-columns: 1fr; } }
+
+    .perk {
+      background: #000; padding: 52px 44px;
+      transition: background .3s;
+    }
+    .perk:hover { background: #0a0a0a; }
+    .perk-icon {
+      width: 36px; height: 36px; margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      font-size: 1rem;
+    }
+    .perk-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300;
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    .perk-desc {
+      font-size: 0.82rem; color: rgba(255,255,255,0.35);
+      line-height: 1.8;
+    }
+
+    /* CTA section */
+    .cta-band {
+      padding: 140px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band::before {
+      content: 'DREAM';
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(8rem, 20vw, 18rem);
+      font-weight: 300; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.02);
+      pointer-events: none; white-space: nowrap;
+    }
+    .cta-band-eyebrow { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 24px; }
+    .cta-band-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300; margin-bottom: 40px; position: relative;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(16px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #0c0c0c;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      width: 100%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(20px);
+      transition: transform .3s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal-header {
+      padding: 36px 40px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .modal-tier-name { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; }
+    .modal-tier-sub { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 4px; }
+    .modal-close {
+      background: none; border: none; color: rgba(255,255,255,0.3);
+      font-size: 1.4rem; cursor: pointer; padding: 0; line-height: 1;
+      transition: color .2s;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-body { padding: 32px 40px 40px; }
+    .form-group { margin-bottom: 24px; }
+    .form-label {
+      display: block; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); margin-bottom: 8px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 0; color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 300;
+      transition: border-color .2s; -webkit-appearance: none; border-radius: 0;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-bottom-color: rgba(255,255,255,0.5); }
+    .form-input::placeholder { color: rgba(255,255,255,0.15); }
+    .form-select option { background: #111; }
+    .form-textarea { resize: none; min-height: 70px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .form-submit {
+      width: 100%; padding: 15px; border-radius: 100px;
+      font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all .25s; border: none; margin-top: 8px;
+    }
+    .form-submit--white { background: #fff; color: #000; }
+    .form-submit--white:hover { background: rgba(255,255,255,.88); }
+    .form-submit--gold { background: #C9A96E; color: #000; }
+    .form-submit--gold:hover { background: #d4b47a; }
+    .form-submit:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* Toast */
+    #toast-container { position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+    .toast { background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 20px; min-width: 240px; font-size: 0.84rem; animation: fadeUp .3s ease; }
+    .toast--success { border-color: rgba(52,199,89,0.3); }
+    .toast--error   { border-color: rgba(255,59,48,.3); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; } }
+
+    /* Footer */
+    .footer {
+      padding: 60px 56px 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 300; }
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.15); }
+    .footer-link { font-size: 0.72rem; color: rgba(255,255,255,0.25); transition: color .2s; }
+    .footer-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="/" class="nav-logo">Dream</a>
+  <a href="/" class="nav-back">Back to Site</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="https://videos.pexels.com/video-files/5727833/5727833-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Members Only — New York City</div>
+    <h1 class="hero-title">Dream<br><em>Members Club</em></h1>
+    <p class="hero-sub">Access to curated events, invitation-only experiences, and concierge services across New York City and beyond.</p>
+    <div class="hero-cta-row">
+      <button class="btn-join btn-join--white" onclick="openModal('club')">Access Founders Club</button>
+      <button class="btn-join btn-join--border" onclick="openModal('black')">Request Black Membership</button>
+    </div>
+  </div>
+  <div class="scroll-line"></div>
+</section>
+
+<!-- Intro -->
+<div class="intro-strip">
+  <div class="container">
+    <p>Dream Members Club is <em>not a loyalty program.</em><br>It's access to a city most people only read about.</p>
+  </div>
+</div>
+
+<!-- Tiers -->
+<section class="section" style="padding-top:0;padding-bottom:0">
+  <div class="tiers">
+
+    <!-- Founders Club -->
+    <div class="tier">
+      <div class="tier-label">Tier 01</div>
+      <div class="tier-name">Founders Club</div>
+      <div class="tier-sub">Open application — curated selection</div>
+      <div class="tier-divider"></div>
+      <ul class="tier-features">
+        <li>Access to curated events across Dream's NYC venues</li>
+        <li>Thought-provoking panels hosted in iconic New York City venues</li>
+        <li>Curated calendar of Dream's signature social gatherings</li>
+        <li>Invitation-only mixers with founders and investors</li>
+        <li>Industry-specific business events tailored to your niche</li>
+        <li>Access to the Dream Members App</li>
+      </ul>
+      <button class="btn-join btn-join--white" onclick="openModal('club')">Apply for Access</button>
+    </div>
+
+    <!-- Black -->
+    <div class="tier tier--black">
+      <div class="invite-badge">Invitation Only</div>
+      <div class="tier-label">Tier 02</div>
+      <div class="tier-name" style="color:#C9A96E">Dream Black</div>
+      <div class="tier-sub" style="color:rgba(201,169,110,0.4)">By invitation — no exceptions</div>
+      <div class="tier-divider" style="background:rgba(201,169,110,0.12)"></div>
+      <ul class="tier-features">
+        <li>Access to Dream's full curated events directory</li>
+        <li>Exclusive Dream in-house events and private nights</li>
+        <li>Curated global City Guide in the Dream App</li>
+        <li>Exclusive events at global Art festivals</li>
+        <li>Grand Prix weekend experiences</li>
+        <li>Curated exclusive networking dinners</li>
+        <li>Exclusive Dream events around the social calendar</li>
+        <li>Personal concierge for chartered flights, yachts, and exotic cars</li>
+        <li>Concierge for all VIP entertainment — sports, concerts, talk shows</li>
+      </ul>
+      <button class="btn-join btn-join--gold" onclick="openModal('black')">Request Invitation</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Perks grid -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:72px">
+      <div style="font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px">What membership means</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300">Beyond the velvet rope.</h2>
+    </div>
+    <div class="perks">
+      <div class="perk">
+        <div class="perk-icon">✦</div>
+        <div class="perk-title">Curated Events</div>
+        <div class="perk-desc">Every event is selected, not listed. Panels, dinners, openings, and nights that matter — delivered to your calendar before the public knows.</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">◈</div>
+        <div class="perk-title">Founder Access</div>
+        <div class="perk-desc">Invitation-only mixers with founders, investors, and the people building the next wave. No panels, no pitching — just the right room.</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">◉</div>
+        <div class="perk-title">Personal Concierge</div>
+        <div class="perk-desc">Black members get a dedicated concierge. Chartered flights, yachts, exotic cars, VIP sports and concert access — handled before you ask.</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">◐</div>
+        <div class="perk-title">Global City Guide</div>
+        <div class="perk-desc">A curated guide to every city that matters. Where to stay, eat, be seen — from people who actually know, not algorithms.</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">◎</div>
+        <div class="perk-title">Art & Culture</div>
+        <div class="perk-desc">Exclusive events at global art festivals and cultural moments. Access to the conversations that shape the next decade of taste.</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">⬡</div>
+        <div class="perk-title">Dream App</div>
+        <div class="perk-desc">Your membership hub. Events, reservations, concierge requests, and your city guide — all in one place, built for how you actually move.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="cta-band-eyebrow">Ready to join</div>
+  <h2 class="cta-band-title">The room<br><em>that matters.</em></h2>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative">
+    <button class="btn-join btn-join--white" onclick="openModal('club')">Apply — Founders Club</button>
+    <button class="btn-join btn-join--gold" onclick="openModal('black')">Request — Dream Black</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-logo">Dream</div>
+  <a href="/" class="footer-link">dreamhospitalitygroup.com</a>
+  <span class="footer-copy">© 2026 Dream Hospitality Group LLC</span>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tier-name" id="modal-tier-name">Founders Club</div>
+        <div class="modal-tier-sub" id="modal-tier-sub">Apply for access</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="apply-form">
+        <input type="hidden" name="tier" id="form-tier" value="club" />
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" name="first_name" placeholder="First" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" name="last_name" placeholder="Last" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" name="phone" placeholder="+1 (000) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry / Role</label>
+          <select class="form-select" name="profile">
+            <option value="">Select</option>
+            <option>Founder / Entrepreneur</option>
+            <option>Investor / VC</option>
+            <option>Creative / Artist</option>
+            <option>Athlete / Sports</option>
+            <option>Entertainment</option>
+            <option>Finance / Law</option>
+            <option>Tech</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="referral-group">
+          <label class="form-label">Referred by (optional)</label>
+          <input class="form-input" type="text" name="referral" placeholder="Member name or handle" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Why Dream</label>
+          <textarea class="form-textarea" name="notes" placeholder="Tell us why you're the right fit..."></textarea>
+        </div>
+        <button type="submit" class="form-submit form-submit--white" id="apply-btn" style="margin-top:16px">Submit Application</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+
+  // Nav compact
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('compact', scrollY > 60);
+  });
+
+  // Modal
+  function openModal(tier) {
+    const isBlack = tier === 'black';
+    document.getElementById('modal-tier-name').textContent = isBlack ? 'Dream Black' : 'Founders Club';
+    document.getElementById('modal-tier-sub').textContent  = isBlack ? 'Invitation only — request access' : 'Apply for access';
+    document.getElementById('form-tier').value = tier;
+    const btn = document.getElementById('apply-btn');
+    btn.className = isBlack ? 'form-submit form-submit--gold' : 'form-submit form-submit--white';
+    btn.textContent = isBlack ? 'Request Invitation' : 'Submit Application';
+    const ref = document.getElementById('referral-group');
+    ref.style.display = isBlack ? '' : '';
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  // Submit
+  document.getElementById('apply-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('apply-btn');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending...';
+    const body = Object.fromEntries(new FormData(e.target).entries());
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ ...body, source: 'membership' })
+      });
+      if (!res.ok) throw new Error();
+      toast('Application received — our team will be in touch.', 'success');
+      e.target.reset(); closeModal();
+    } catch {
+      toast('Something went wrong. Email us directly.', 'error');
+    } finally { btn.disabled = false; btn.textContent = orig; }
+  });
+
+  function toast(msg, type = 'success') {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = `toast toast--${type}`;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+  }
+</script>
+</body>
+</html>
