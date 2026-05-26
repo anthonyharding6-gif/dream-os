@@ -7,464 +7,206 @@
   <meta name="description" content="New York's premier hospitality group. Harbor, Nebula, PHD, Sei Less, Pappas NY, Tucci, Gyro City." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      -webkit-font-smoothing: antialiased;
-      cursor: none;
-      overflow-x: hidden;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { display: block; }
-
-    /* ── VIDEO HERO ── */
-    .video-hero {
-      position: relative;
-      width: 100%; height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding-bottom: 80px;
-      overflow: hidden;
-      background: #000;
-    }
-    .yt-wrap {
-      position: absolute; inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .yt-wrap video {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 100vw;
-      height: 56.25vw;
-      min-height: 100vh;
-      min-width: 177.78vh;
-      transform: translate(-50%, -50%) scale(1.08);
-      object-fit: cover;
-      transition: transform 0.1s linear;
-    }
-    .yt-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.25) 0%,
-        rgba(0,0,0,0.45) 50%,
-        rgba(0,0,0,0.88) 100%
-      );
-      pointer-events: none;
-    }
-    /* Fallback image shown while video loads */
-    .yt-fallback {
-      position: absolute; inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1920&q=80');
-      background-size: cover; background-position: center;
-      transition: opacity 1s ease;
-    }
-    .yt-fallback.hidden { opacity: 0; }
-
-    /* Custom cursor */
-    .cursor {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: #fff;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, background 0.3s;
-      mix-blend-mode: difference;
-    }
-    .cursor.hover { width: 48px; height: 48px; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 28px 48px;
-      transition: padding 0.4s;
-    }
-    nav.compact { padding: 18px 48px; background: rgba(0,0,0,0.7); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem; font-weight: 300; letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .nav-links { display: flex; align-items: center; gap: 40px; }
-    .nav-links a { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); transition: color 0.2s; }
-    .nav-links a:hover { color: #fff; }
-    .nav-reserve {
-      padding: 9px 24px;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 100px;
-      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #fff; transition: all 0.25s;
-    }
-    .nav-reserve:hover { background: #fff; color: #000; border-color: #fff; }
-
-    /* ── HERO ── */
+    /* Hero */
     .hero {
-      position: relative; width: 100%; height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding-bottom: 80px;
-      overflow: hidden;
+      position: relative; width: 100%; height: 100vh; min-height: 640px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+      background: #0f0f0f;
     }
-    .hero-bg {
+    .hero-video-wrap {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .hero-video-wrap video {
+      position: absolute; top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw;
+      min-height: 100vh; min-width: 177.78vh;
+      transform: translate(-50%,-50%);
+      object-fit: cover;
+      filter: brightness(0.45) saturate(0.7);
+    }
+    .hero-overlay {
       position: absolute; inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?auto=format&fit=crop&w=1920&q=80');
-      background-size: cover; background-position: center;
-      transform: scale(1.05);
-      transition: transform 8s ease;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
     }
-    .hero-bg::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.85) 100%);
-    }
+    .hero-content { position: relative; z-index: 1; padding: 0 24px; max-width: 860px; }
     .hero-eyebrow {
-      position: relative;
-      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 16px;
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 20px;
     }
     .hero-title {
-      position: relative;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(4rem, 10vw, 9rem);
-      font-weight: 300;
-      letter-spacing: 0.04em;
-      line-height: 1;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 40px;
+      font-size: clamp(3rem,8vw,7rem); font-weight: 700;
+      letter-spacing: -0.04em; line-height: 1;
+      color: #fff; margin-bottom: 24px;
     }
-    .hero-title em { font-style: italic; }
-    .hero-cta {
-      position: relative;
-      display: flex; gap: 16px;
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 400; color: rgba(255,255,255,0.6);
+      max-width: 520px; margin: 0 auto 40px; line-height: 1.7;
     }
-    .btn-white {
-      padding: 13px 36px;
-      background: #fff; color: #000;
-      border-radius: 100px;
-      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
-      transition: all 0.25s;
-    }
-    .btn-white:hover { background: rgba(255,255,255,0.85); }
-    .btn-border {
-      padding: 13px 36px;
-      background: transparent; color: #fff;
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 100px;
-      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
-      transition: all 0.25s;
-    }
-    .btn-border:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
-
-    /* Scroll indicator */
-    .scroll-hint {
-      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-    }
-    .scroll-hint::after {
-      content: '';
-      width: 1px; height: 48px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
-    }
-
-    /* ── MARQUEE ── */
-    .marquee-strip {
-      overflow: hidden;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 18px 0;
-      background: #000;
-    }
-    .marquee-track { display: flex; gap: 0; animation: marquee 40s linear infinite; width: max-content; }
-    .marquee-item {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem; font-weight: 300; letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.25);
-      padding: 0 40px;
-      border-right: 1px solid rgba(255,255,255,0.08);
-      white-space: nowrap;
-      transition: color 0.3s;
-    }
-    .marquee-item:hover { color: rgba(255,255,255,0.7); }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* ── VENUE PANELS ── */
-    .venue {
-      position: relative;
-      width: 100%; height: 100vh;
-      display: flex; align-items: flex-end;
-      overflow: hidden;
-    }
-    .venue-img {
-      position: absolute; inset: 0;
-      background-size: cover; background-position: center;
-      transition: transform 6s ease;
-    }
-    .venue:hover .venue-img { transform: scale(1.04); }
-    .venue-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.05) 100%);
-    }
-    .venue-content {
-      position: relative; z-index: 1;
-      padding: 64px;
-      width: 100%;
-      display: flex; align-items: flex-end; justify-content: space-between;
-    }
-    .venue-left { max-width: 520px; }
-    .venue-tag {
-      font-size: 0.62rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 12px;
-    }
-    .venue-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 300; letter-spacing: 0.02em; line-height: 1;
-      margin-bottom: 16px;
-    }
-    .venue-desc {
-      font-size: 0.88rem; font-weight: 300; line-height: 1.8;
-      color: rgba(255,255,255,0.5);
-      max-width: 380px;
-      margin-bottom: 32px;
-    }
-    .venue-addr {
-      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      margin-bottom: 28px;
-    }
-    .venue-right { text-align: right; flex-shrink: 0; }
-    .venue-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(5rem, 12vw, 10rem); font-weight: 300;
-      color: rgba(255,255,255,0.06); line-height: 1;
-      user-select: none;
-    }
-    .btn-venue {
-      display: inline-block;
-      padding: 11px 28px;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 100px;
-      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #fff; transition: all 0.25s;
-      margin-right: 10px;
-    }
-    .btn-venue:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
-    .btn-venue-gold {
-      display: inline-block;
-      padding: 11px 28px;
-      background: #C9A96E; color: #000;
-      border-radius: 100px;
-      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-      transition: all 0.25s;
-    }
-    .btn-venue-gold:hover { background: #d4b47a; }
-
-    /* Thin divider between venues */
-    .venue-divider { height: 1px; background: rgba(255,255,255,0.06); }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      padding: 60px 64px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .section-label h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.8rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
       color: rgba(255,255,255,0.3);
     }
-    .section-label span {
-      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
+    .hero-scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
     }
 
-    /* ── ABOUT ── */
-    .about {
-      display: grid; grid-template-columns: 1fr 1fr;
-      min-height: 80vh;
+    /* Marquee */
+    .marquee-strip {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 14px 0; overflow: hidden;
     }
-    .about-img {
-      background-image: url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80');
+    .marquee-track { display: flex; animation: marquee 35s linear infinite; width: max-content; }
+    .marquee-item {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--faint); padding: 0 36px; border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Intro */
+    .intro { padding: 100px 0 80px; text-align: center; }
+    .intro p { font-size: 1.15rem; color: var(--muted); max-width: 580px; margin: 20px auto 0; line-height: 1.8; }
+
+    /* Venues section */
+    .venues-section { padding: 80px 0 100px; }
+    .venues-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px; flex-wrap: wrap; gap: 16px;
+    }
+    .venues-title-group h2 { margin-bottom: 6px; }
+    .venues-title-group p { font-size: 0.9rem; color: var(--muted); }
+
+    /* Feature strip (Apple-style large feature) */
+    .feature-strip {
+      position: relative; border-radius: var(--radius-xl);
+      overflow: hidden; margin-bottom: 80px;
+      background: var(--dark);
+      min-height: 480px; display: flex; align-items: flex-end;
+    }
+    .feature-strip__bg {
+      position: absolute; inset: 0;
       background-size: cover; background-position: center;
     }
-    .about-text {
-      padding: 120px 80px;
-      display: flex; flex-direction: column; justify-content: center;
-      background: #0a0a0a;
+    .feature-strip__bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.05) 100%);
     }
-    .about-eyebrow {
-      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: #C9A96E; margin-bottom: 32px;
+    .feature-strip__content {
+      position: relative; z-index: 1;
+      padding: 48px 52px; width: 100%;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
     }
-    .about-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.2;
-      margin-bottom: 32px;
-    }
-    .about-body {
-      font-size: 0.9rem; font-weight: 300; line-height: 1.9;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 20px;
-    }
-    .about-sig {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem; font-style: italic; font-weight: 300;
-      color: rgba(255,255,255,0.25);
-      margin-top: 16px;
-    }
+    .feature-strip__left { max-width: 560px; }
+    .feature-strip__type { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 10px; }
+    .feature-strip__name { font-size: clamp(2rem,4vw,3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #fff; margin-bottom: 10px; }
+    .feature-strip__desc { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 6px; }
+    .feature-strip__addr { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-bottom: 28px; }
+    .feature-strip__cta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .feature-strip__right { flex-shrink: 0; }
+    .feature-num { font-size: clamp(6rem,12vw,10rem); font-weight: 700; color: rgba(255,255,255,0.05); line-height: 1; user-select: none; }
+    @media (max-width: 640px) { .feature-strip__content { flex-direction: column; padding: 32px 24px; } .feature-strip__right { display: none; } }
 
-    /* ── RESERVE ── */
-    .reserve {
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .reserve-left {
-      padding: 100px 80px;
-      background: #080808;
-      border-right: 1px solid rgba(255,255,255,0.06);
-    }
-    .reserve-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #C9A96E; margin-bottom: 28px; }
-    .reserve-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 40px; }
-    .contact-item { margin-bottom: 28px; }
-    .contact-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 6px; }
-    .contact-val { font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.65); }
-    .contact-val a { color: rgba(255,255,255,0.65); transition: color 0.2s; }
-    .contact-val a:hover { color: #fff; }
+    /* Venue grid cards */
+    .venue-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    @media (max-width: 900px) { .venue-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .venue-grid { grid-template-columns: 1fr; } }
 
-    .reserve-right { padding: 100px 80px; background: #050505; }
-    .form-label { display: block; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background: transparent;
-      border: none; border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 10px 0;
-      color: #fff;
-      font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 300;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-      border-radius: 0;
+    /* About */
+    .about-section {
+      background: var(--dark); border-radius: var(--radius-xl);
+      overflow: hidden; margin: 0 40px 80px;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-bottom-color: rgba(255,255,255,0.5); }
-    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.15); }
-    .form-select option { background: #111; }
-    .form-textarea { resize: none; min-height: 80px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; }
-    .form-group { margin-bottom: 28px; }
-    .form-submit {
-      width: 100%; padding: 16px;
-      background: #fff; color: #000;
-      border: none; border-radius: 100px;
-      font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-      cursor: pointer; transition: background 0.2s;
-      margin-top: 12px;
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 480px;
     }
-    .form-submit:hover { background: rgba(255,255,255,0.88); }
-    .form-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+    .about-img {
+      background: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80') center/cover;
+    }
+    .about-text { padding: 72px 64px; display: flex; flex-direction: column; justify-content: center; }
+    .about-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .about-title { font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 700; letter-spacing: -0.03em; color: #fff; margin-bottom: 24px; line-height: 1.1; }
+    .about-body { font-size: 0.9rem; color: rgba(255,255,255,0.45); line-height: 1.9; margin-bottom: 16px; }
+    .about-sig { font-size: 0.84rem; color: rgba(255,255,255,0.2); font-style: italic; margin-top: 8px; }
+    @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; } .about-img { height: 240px; } .about-text { padding: 40px 28px; } .about-section { margin: 0 0 60px; border-radius: var(--radius-lg); } }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 80px 64px 40px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
-      background: #000;
-    }
-    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 12px; }
-    .footer-tag { font-size: 0.8rem; font-weight: 300; color: rgba(255,255,255,0.25); line-height: 1.7; max-width: 240px; }
-    .footer-col-title { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 20px; }
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .footer-links a { font-size: 0.84rem; font-weight: 300; color: rgba(255,255,255,0.35); transition: color 0.2s; }
+    /* Reserve */
+    .reserve-section { padding: 80px 0 100px; }
+    .reserve-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .reserve-left h2 { margin-bottom: 16px; }
+    .reserve-left p { margin-bottom: 40px; }
+    .contact-block { display: flex; flex-direction: column; gap: 24px; }
+    .contact-item__label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+    .contact-item__val { font-size: 1rem; color: var(--dark); }
+    .contact-item__val a { color: var(--dark); transition: color 0.2s; }
+    .contact-item__val a:hover { color: var(--gold); }
+    .reserve-form-wrap { background: var(--white); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow); }
+    @media (max-width: 768px) { .reserve-inner { grid-template-columns: 1fr; gap: 48px; } .reserve-form-wrap { padding: 28px; } }
+
+    /* Footer */
+    .footer { background: var(--dark); padding: 72px 0 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+    .footer-brand { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .footer-tag { font-size: 0.84rem; color: rgba(255,255,255,0.3); line-height: 1.7; max-width: 220px; }
+    .footer-col-title { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 0.84rem; color: rgba(255,255,255,0.4); transition: color 0.2s; }
     .footer-links a:hover { color: #fff; }
-    .footer-bottom {
-      grid-column: 1 / -1;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex; justify-content: space-between;
-      font-size: 0.72rem; font-weight: 300; color: rgba(255,255,255,0.15);
-      flex-wrap: wrap; gap: 12px;
-    }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
 
-    /* ── Toast ── */
-    #toast-container { position: fixed; bottom: 32px; right: 32px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-    .toast { background: #111; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 20px; min-width: 260px; font-size: 0.84rem; animation: toastIn 0.3s ease; }
-    .toast--success { border-color: rgba(52,199,89,0.3); }
-    .toast--error   { border-color: rgba(255,59,48,0.3); }
-    @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      nav { padding: 20px 24px; }
-      .nav-links { display: none; }
-      .venue-content { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
-      .venue-right { display: none; }
-      .section-label { padding: 40px 24px; }
-      .about { grid-template-columns: 1fr; }
-      .about-img { height: 50vw; }
-      .about-text { padding: 60px 32px; }
-      .reserve { grid-template-columns: 1fr; }
-      .reserve-left, .reserve-right { padding: 60px 32px; }
-      footer { grid-template-columns: 1fr 1fr; padding: 60px 24px 32px; gap: 40px; }
-      .hero-cta { flex-direction: column; align-items: center; }
-    }
+    /* Smooth reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-
 <!-- NAV -->
-<nav id="nav">
-  <a href="/" class="nav-logo">Dream</a>
-  <div class="nav-links">
-    <a href="#nightlife">Nightlife</a>
-    <a href="#dining">Dining</a>
-    <a href="#about">About</a>
-    <a href="/membership/">Membership</a>
-    <a href="#reserve" class="nav-reserve">Reserve</a>
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">Dream</a>
+    <div class="nav__links">
+      <a href="#venues">Venues</a>
+      <a href="#dining">Dining</a>
+      <a href="/membership/">Membership</a>
+      <a href="#reserve">Reserve</a>
+      <a href="/admin/" class="nav__cta">Staff</a>
+    </div>
   </div>
 </nav>
 
-<!-- HERO — NYC aerial drone video background -->
-<section class="video-hero" id="hero">
-  <!-- Fallback image shown while YouTube loads -->
-  <div class="yt-fallback" id="yt-fallback"></div>
-
-  <!-- Direct MP4: Aerial View of NYC at Night (Pexels, royalty-free) -->
-  <div class="yt-wrap">
-    <video
-      id="yt-iframe"
-      autoplay muted loop playsinline
-      poster="https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1920&q=80"
-    >
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1920&q=80">
       <source src="https://videos.pexels.com/video-files/5727833/5727833-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-      <source src="https://videos.pexels.com/video-files/12122308/12122308-uhd_2560_1440_24fps.mp4" type="video/mp4" />
     </video>
   </div>
-  <div class="yt-overlay" id="yt-overlay"></div>
-
-  <div class="hero-eyebrow">Dream Hospitality Group — New York City</div>
-  <h1 class="hero-title">Where the<br><em>night lives.</em></h1>
-  <div class="hero-cta">
-    <a href="#nightlife" class="btn-white">Explore Venues</a>
-    <a href="#reserve" class="btn-border">Make a Reservation</a>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Dream Hospitality Group</span>
+    <h1 class="hero-title">New York's finest.</h1>
+    <p class="hero-sub">Four nightlife venues. Four restaurant concepts. One standard of excellence across New York City.</p>
+    <div class="hero-cta">
+      <a href="#venues" class="btn btn--white btn--lg">Explore Venues</a>
+      <a href="#reserve" class="btn btn--lg" style="background:rgba(255,255,255,0.12);color:#fff;backdrop-filter:blur(10px)">Make a Reservation</a>
+    </div>
   </div>
-  <div class="scroll-hint">Scroll</div>
+  <div class="hero-scroll">
+    Scroll
+    <div class="hero-scroll-line"></div>
+  </div>
 </section>
 
 <!-- MARQUEE -->
@@ -491,373 +233,375 @@
   </div>
 </div>
 
-<!-- ── NIGHTLIFE ── -->
-<div id="nightlife">
-  <div class="section-label">
-    <h2>Nightlife</h2>
-    <span>04 Venues</span>
+<!-- INTRO -->
+<div class="intro">
+  <div class="container">
+    <span class="eyebrow">New York City</span>
+    <p>From flagship nightclubs to critically acclaimed restaurants, Dream Hospitality Group has built NYC's most diverse collection of premium venues under one roof.</p>
   </div>
+</div>
 
-  <!-- Harbor -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Nightclub — Flagship</div>
-        <div class="venue-name">Harbor</div>
-        <div class="venue-desc">10,000 square feet. Two levels. NYC's premier rooftop nightclub and multilevel event space. From intimate lounges to full club takeovers.</div>
-        <div class="venue-addr">West 46th Street — Hell's Kitchen, New York</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve Table</a>
-        <a href="#reserve" class="btn-venue">Buy Tickets</a>
-      </div>
-      <div class="venue-right"><div class="venue-num">01</div></div>
+<!-- STATS -->
+<div class="container reveal">
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-item__val">4</div>
+      <div class="stat-item__label">Nightlife Venues</div>
     </div>
-  </div>
-
-  <div class="venue-divider"></div>
-
-  <!-- Nebula -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay" style="background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.15) 60%)"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Nightclub</div>
-        <div class="venue-name">Nebula</div>
-        <div class="venue-desc">World-class production. International DJs. A crowd that knows exactly where to be. Nebula sets the tone for the entire city.</div>
-        <div class="venue-addr">New York City</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve Table</a>
-        <a href="#reserve" class="btn-venue">Buy Tickets</a>
-      </div>
-      <div class="venue-right"><div class="venue-num">02</div></div>
+    <div class="stat-item">
+      <div class="stat-item__val">4</div>
+      <div class="stat-item__label">Restaurant Concepts</div>
     </div>
-  </div>
-
-  <div class="venue-divider"></div>
-
-  <!-- PHD -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Rooftop Lounge</div>
-        <div class="venue-name">PHD</div>
-        <div class="venue-desc">Sky-high views. Curated cocktails. The Manhattan skyline as your backdrop. PHD is where the night comes into focus.</div>
-        <div class="venue-addr">Dream Downtown — New York City</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve Table</a>
-        <a href="#reserve" class="btn-venue">Buy Tickets</a>
-      </div>
-      <div class="venue-right"><div class="venue-num">03</div></div>
+    <div class="stat-item">
+      <div class="stat-item__val">18+</div>
+      <div class="stat-item__label">Years Experience</div>
     </div>
-  </div>
-
-  <div class="venue-divider"></div>
-
-  <!-- Petite -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Intimate Venue</div>
-        <div class="venue-name">Petite</div>
-        <div class="venue-desc">Small by design. Exclusive by nature. Petite is Dream's most intimate concept — curated nights, curated guests, zero compromise.</div>
-        <div class="venue-addr">New York City</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve</a>
-        <a href="#reserve" class="btn-venue">Inquire</a>
-      </div>
-      <div class="venue-right"><div class="venue-num">04</div></div>
+    <div class="stat-item">
+      <div class="stat-item__val">NYC</div>
+      <div class="stat-item__label">New York City</div>
     </div>
   </div>
 </div>
 
-<!-- ── DINING ── -->
-<div id="dining">
-  <div class="section-label">
-    <h2>Dining</h2>
-    <span>04 Concepts</span>
-  </div>
-
-  <!-- Sei Less -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1617196034183-421b4040ed20?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Asian Fusion — Speakeasy</div>
-        <div class="venue-name">Sei Less</div>
-        <div class="venue-desc">Behind an enigmatic mural in Midtown. Pan-Asian cuisine, craft cocktails, and an atmosphere that earns its reputation as the city's sexiest restaurant.</div>
-        <div class="venue-addr">156 W 38th Street — Midtown, New York</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve a Table</a>
-        <a href="https://www.seiless.com/" target="_blank" class="btn-venue">Visit Site</a>
+<!-- NIGHTLIFE VENUES -->
+<section class="venues-section" id="venues">
+  <div class="container">
+    <div class="venues-header reveal">
+      <div class="venues-title-group">
+        <span class="eyebrow" style="display:block;margin-bottom:10px">Nightlife</span>
+        <h2>Where the night starts.</h2>
+        <p>Four iconic venues across New York City.</p>
       </div>
-      <div class="venue-right"><div class="venue-num">05</div></div>
     </div>
-  </div>
 
-  <div class="venue-divider"></div>
-
-  <!-- Pappas NY -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Greek Restaurant</div>
-        <div class="venue-name">Pappas NY</div>
-        <div class="venue-desc">A love letter to Greek cuisine in Greenwich Village. Authentic flavors, elevated execution, and the warmth of a family table — without compromise.</div>
-        <div class="venue-addr">Greenwich Village — New York City</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve a Table</a>
+    <!-- Harbor featured -->
+    <div class="feature-strip reveal" style="margin-bottom:24px">
+      <div class="feature-strip__bg" style="background-image:url('https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1600&q=80')"></div>
+      <div class="feature-strip__content">
+        <div class="feature-strip__left">
+          <div class="feature-strip__type">Flagship Nightclub</div>
+          <div class="feature-strip__name">Harbor NYC</div>
+          <div class="feature-strip__desc">10,000 square feet. Two levels. NYC's premier rooftop nightclub and multilevel event space on the West Side.</div>
+          <div class="feature-strip__addr">West 46th Street, Hell's Kitchen</div>
+          <div class="feature-strip__cta">
+            <a href="#reserve" class="btn btn--white btn--sm">Reserve Table</a>
+            <a href="#reserve" class="btn btn--sm" style="background:rgba(255,255,255,0.15);color:#fff">Buy Tickets</a>
+          </div>
+        </div>
+        <div class="feature-strip__right"><div class="feature-num">01</div></div>
       </div>
-      <div class="venue-right"><div class="venue-num">06</div></div>
     </div>
-  </div>
 
-  <div class="venue-divider"></div>
+    <!-- Other nightlife 3-col grid -->
+    <div class="venue-grid reveal">
 
-  <!-- Tucci -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Italian Restaurant — NoHo</div>
-        <div class="venue-name">Tucci New York</div>
-        <div class="venue-desc">Regional Italian cooking built in partnership with the proprietors of Delmonico's. The quality and hospitality this city deserves.</div>
-        <div class="venue-addr">NoHo — New York City</div>
-        <a href="#reserve" class="btn-venue-gold">Reserve a Table</a>
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="Nebula NYC" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Nightclub</div>
+          <div class="venue-card__name">Nebula</div>
+          <div class="venue-card__desc">World-class production, international DJs, and a crowd that defines the night.</div>
+          <div class="venue-card__addr">New York City</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Reserve</a>
+            <a href="#reserve" class="btn btn--outline btn--sm">Tickets</a>
+          </div>
+        </div>
       </div>
-      <div class="venue-right"><div class="venue-num">07</div></div>
-    </div>
-  </div>
 
-  <div class="venue-divider"></div>
-
-  <!-- Gyro City -->
-  <div class="venue">
-    <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1920&q=80')"></div>
-    <div class="venue-overlay"></div>
-    <div class="venue-content">
-      <div class="venue-left">
-        <div class="venue-tag">Greek Fast Casual — 2 Locations</div>
-        <div class="venue-name">Gyro City</div>
-        <div class="venue-desc">Not reinventing the gyro — respecting it. Organic ingredients, real cooking methods, hospitality-first. Greenwich Village and Astoria.</div>
-        <div class="venue-addr">99 MacDougal St, Greenwich Village &nbsp;·&nbsp; Astoria, Queens</div>
-        <a href="#reserve" class="btn-venue-gold">Order Now</a>
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80" alt="PHD Rooftop" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Rooftop Lounge</div>
+          <div class="venue-card__name">PHD</div>
+          <div class="venue-card__desc">Sky-high views, curated cocktails, and Manhattan as your backdrop.</div>
+          <div class="venue-card__addr">Dream Downtown, NYC</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Reserve</a>
+            <a href="#reserve" class="btn btn--outline btn--sm">Tickets</a>
+          </div>
+        </div>
       </div>
-      <div class="venue-right"><div class="venue-num">08</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- ── DANK ── -->
-<div class="venue" style="height:70vh">
-  <div class="venue-img" style="background-image:url('https://images.unsplash.com/photo-1589579234096-25952218cc4d?auto=format&fit=crop&w=1920&q=80')"></div>
-  <div class="venue-overlay"></div>
-  <div class="venue-content">
-    <div class="venue-left">
-      <div class="venue-tag">Cannabis Brand & Events Partner</div>
-      <div class="venue-name">Dank by Definition</div>
-      <div class="venue-desc">New York's premium cannabis brand. Flower, edibles, concentrates, and vapes — built on the same standard as everything Dream touches.</div>
-      <div class="venue-addr">New York State — Available at select dispensaries</div>
-      <a href="https://www.dankbydefinition.com/" target="_blank" class="btn-venue-gold">Learn More</a>
-    </div>
-    <div class="venue-right"><div class="venue-num">09</div></div>
-  </div>
-</div>
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80" alt="Petite" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Intimate Venue</div>
+          <div class="venue-card__name">Petite</div>
+          <div class="venue-card__desc">Small by design. Exclusive by nature. Dream's most curated concept.</div>
+          <div class="venue-card__addr">New York City</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Inquire</a>
+          </div>
+        </div>
+      </div>
 
-<!-- ── ABOUT ── -->
-<section id="about" class="about">
-  <div class="about-img"></div>
-  <div class="about-text">
-    <div class="about-eyebrow">The Story</div>
-    <h2 class="about-title">Built from<br>the ground up.</h2>
-    <p class="about-body">Dream Hospitality Group was founded by George Karavias — a Greek-American with 18+ years in New York nightlife. What started as a promotional outfit in 2015 has grown into an empire: four nightclubs, four restaurant concepts, a cannabis brand, and a team that has redefined what hospitality means in this city.</p>
-    <p class="about-body">From Harbor to Sei Less, from Gyro City to Dank by Definition — every concept is built on the same foundation: intentionality, quality, and a genuine love for what New York City can be when the right people are in the room.</p>
-    <p class="about-sig">— George Karavias, Founder & President</p>
+    </div>
   </div>
 </section>
 
-<!-- ── RESERVE ── -->
-<section id="reserve" class="reserve">
-  <div class="reserve-left">
-    <div class="reserve-eyebrow">Reservations</div>
-    <h2 class="reserve-title">Book your<br>experience.</h2>
-    <div class="contact-item">
-      <div class="contact-label">Phone</div>
-      <div class="contact-val"><a href="tel:9145208150">(914) 520-8150</a></div>
+<!-- DINING -->
+<section class="venues-section" id="dining" style="background:var(--white);padding:80px 0 100px">
+  <div class="container">
+    <div class="venues-header reveal">
+      <div class="venues-title-group">
+        <span class="eyebrow" style="display:block;margin-bottom:10px">Dining</span>
+        <h2>Four concepts. One standard.</h2>
+        <p>From Midtown speakeasy to Greenwich Village gyros.</p>
+      </div>
     </div>
-    <div class="contact-item">
-      <div class="contact-label">Email</div>
-      <div class="contact-val"><a href="mailto:reservations@dreamhospitalitygroup.com">reservations@dreamhospitalitygroup.com</a></div>
+
+    <!-- Sei Less featured -->
+    <div class="feature-strip reveal" style="margin-bottom:24px">
+      <div class="feature-strip__bg" style="background-image:url('https://images.unsplash.com/photo-1617196034183-421b4040ed20?auto=format&fit=crop&w=1600&q=80')"></div>
+      <div class="feature-strip__content">
+        <div class="feature-strip__left">
+          <div class="feature-strip__type">Asian Fusion Speakeasy</div>
+          <div class="feature-strip__name">Sei Less</div>
+          <div class="feature-strip__desc">Behind an enigmatic mural in Midtown. Pan-Asian cuisine, craft cocktails, and NYC's most intimate dining atmosphere.</div>
+          <div class="feature-strip__addr">156 W 38th Street, Midtown</div>
+          <div class="feature-strip__cta">
+            <a href="#reserve" class="btn btn--white btn--sm">Reserve Table</a>
+            <a href="https://www.seiless.com/" target="_blank" class="btn btn--sm" style="background:rgba(255,255,255,0.15);color:#fff">Visit Site</a>
+          </div>
+        </div>
+        <div class="feature-strip__right"><div class="feature-num">05</div></div>
+      </div>
     </div>
-    <div class="contact-item">
-      <div class="contact-label">Instagram</div>
-      <div class="contact-val"><a href="https://www.instagram.com/dreamhospitality/" target="_blank">@dreamhospitality</a></div>
+
+    <!-- Other dining 3-col -->
+    <div class="venue-grid reveal">
+
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" alt="Pappas NY" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Greek Restaurant</div>
+          <div class="venue-card__name">Pappas NY</div>
+          <div class="venue-card__desc">A love letter to Greek cuisine in the heart of Greenwich Village. Authentic, elevated, and warm.</div>
+          <div class="venue-card__addr">Greenwich Village, NYC</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Reserve</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="Tucci New York" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Italian Restaurant</div>
+          <div class="venue-card__name">Tucci New York</div>
+          <div class="venue-card__desc">Regional Italian cooking in NoHo, built with the team behind Delmonico's.</div>
+          <div class="venue-card__addr">NoHo, NYC</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Reserve</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card venue-card">
+        <div class="venue-card__img-wrap">
+          <img class="venue-card__img" src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80" alt="Gyro City" loading="lazy" />
+        </div>
+        <div class="venue-card__body">
+          <div class="venue-card__type">Greek Fast Casual</div>
+          <div class="venue-card__name">Gyro City</div>
+          <div class="venue-card__desc">Not reinventing the gyro. Respecting it. Two locations: Greenwich Village and Astoria.</div>
+          <div class="venue-card__addr">MacDougal St + Astoria, Queens</div>
+          <div class="venue-card__links">
+            <a href="#reserve" class="btn btn--dark btn--sm">Order</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="reserve-right">
-    <form id="reserve-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Name</label>
-          <input class="form-input" type="text" name="name" placeholder="Your name" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input class="form-input" type="email" name="email" placeholder="you@example.com" required />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Phone</label>
-          <input class="form-input" type="tel" name="phone" placeholder="+1 (000) 000-0000" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Party Size</label>
-          <input class="form-input" type="number" name="guests" placeholder="# guests" min="1" />
+</section>
+
+<!-- DANK -->
+<div class="container" style="padding-bottom:80px">
+  <div class="feature-strip reveal">
+    <div class="feature-strip__bg" style="background-image:url('https://images.unsplash.com/photo-1589579234096-25952218cc4d?auto=format&fit=crop&w=1600&q=80')"></div>
+    <div class="feature-strip__content">
+      <div class="feature-strip__left">
+        <div class="feature-strip__type">Cannabis Brand</div>
+        <div class="feature-strip__name">Dank by Definition</div>
+        <div class="feature-strip__desc">New York's premium cannabis brand. Flower, edibles, concentrates, and vapes built on the same standard as everything Dream touches.</div>
+        <div class="feature-strip__addr">Available at select New York dispensaries</div>
+        <div class="feature-strip__cta">
+          <a href="https://www.dankbydefinition.com/" target="_blank" class="btn btn--white btn--sm">Learn More</a>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Venue</label>
-        <select class="form-select" name="venue">
-          <option value="">Select venue</option>
-          <optgroup label="Nightlife">
-            <option>Harbor NYC</option>
-            <option>Nebula</option>
-            <option>PHD Rooftop</option>
-            <option>Petite</option>
-          </optgroup>
-          <optgroup label="Dining">
-            <option>Sei Less</option>
-            <option>Pappas NY</option>
-            <option>Tucci New York</option>
-            <option>Gyro City — Greenwich Village</option>
-            <option>Gyro City — Astoria</option>
-          </optgroup>
-          <optgroup label="Events">
-            <option>Private Event / Full Buyout</option>
-          </optgroup>
-        </select>
+      <div class="feature-strip__right"><div class="feature-num">09</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="container">
+  <div class="about-section reveal">
+    <div class="about-inner">
+      <div class="about-img"></div>
+      <div class="about-text">
+        <div class="about-eyebrow">The Story</div>
+        <h2 class="about-title" style="color:#fff">Built from the ground up.</h2>
+        <p class="about-body">Dream Hospitality Group was founded by George Karavias, a Greek-American with 18 years in New York nightlife. What started as a promotional outfit in 2015 has grown into an empire: four nightclubs, four restaurant concepts, and a cannabis brand.</p>
+        <p class="about-body">From Harbor to Sei Less, from Gyro City to Dank by Definition, every concept is built on intentionality, quality, and a genuine love for what New York City can be.</p>
+        <p class="about-sig">George Karavias, Founder and President</p>
       </div>
-      <div class="form-group">
-        <label class="form-label">Date</label>
-        <input class="form-input" type="date" name="date" />
+    </div>
+  </div>
+</div>
+
+<!-- RESERVE -->
+<section class="reserve-section" id="reserve">
+  <div class="container">
+    <div class="reserve-inner">
+      <div class="reserve-left reveal">
+        <span class="eyebrow" style="display:block;margin-bottom:12px">Reservations</span>
+        <h2>Book your experience.</h2>
+        <p>Whether it is a table at Sei Less or a full Harbor takeover, our team responds within hours.</p>
+        <div class="contact-block">
+          <div>
+            <div class="contact-item__label">Phone</div>
+            <div class="contact-item__val"><a href="tel:9145208150">(914) 520-8150</a></div>
+          </div>
+          <div>
+            <div class="contact-item__label">Email</div>
+            <div class="contact-item__val"><a href="mailto:reservations@dreamhospitalitygroup.com">reservations@dreamhospitalitygroup.com</a></div>
+          </div>
+          <div>
+            <div class="contact-item__label">Instagram</div>
+            <div class="contact-item__val"><a href="https://www.instagram.com/dreamhospitality/" target="_blank">@dreamhospitality</a></div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Notes</label>
-        <textarea class="form-textarea" name="notes" placeholder="Special requests, occasion, VIP needs..."></textarea>
+      <div class="reveal">
+        <div class="reserve-form-wrap">
+          <form id="reserve-form">
+            <div class="grid-2" style="gap:14px;margin-bottom:0">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input class="form-input" type="text" name="first_name" placeholder="First" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input class="form-input" type="text" name="last_name" placeholder="Last" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input class="form-input" type="tel" name="phone" placeholder="+1 (000) 000-0000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Venue</label>
+              <select class="form-select" name="venue">
+                <option value="">Select a venue</option>
+                <optgroup label="Nightlife">
+                  <option>Harbor NYC</option>
+                  <option>Nebula</option>
+                  <option>PHD Rooftop</option>
+                  <option>Petite</option>
+                </optgroup>
+                <optgroup label="Dining">
+                  <option>Sei Less</option>
+                  <option>Pappas NY</option>
+                  <option>Tucci New York</option>
+                  <option>Gyro City - Greenwich Village</option>
+                  <option>Gyro City - Astoria</option>
+                </optgroup>
+                <optgroup label="Events">
+                  <option>Private Event / Full Buyout</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="grid-2" style="gap:14px;margin-bottom:0">
+              <div class="form-group">
+                <label class="form-label">Date</label>
+                <input class="form-input" type="date" name="date" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Party Size</label>
+                <input class="form-input" type="number" name="guests" min="1" placeholder="Guests" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notes</label>
+              <textarea class="form-textarea" name="notes" placeholder="Special requests, occasion, VIP needs..." style="min-height:80px"></textarea>
+            </div>
+            <button type="submit" class="btn btn--dark" style="width:100%;justify-content:center" id="reserve-btn">Send Request</button>
+          </form>
+        </div>
       </div>
-      <button type="submit" class="form-submit" id="reserve-btn">Send Request</button>
-    </form>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div>
-    <div class="footer-brand">Dream</div>
-    <p class="footer-tag">New York City's premier hospitality group. Four venues. Four restaurants. One standard.</p>
-  </div>
-  <div>
-    <div class="footer-col-title">Nightlife</div>
-    <ul class="footer-links">
-      <li><a href="#nightlife">Harbor NYC</a></li>
-      <li><a href="#nightlife">Nebula</a></li>
-      <li><a href="#nightlife">PHD Rooftop</a></li>
-      <li><a href="#nightlife">Petite</a></li>
-    </ul>
-  </div>
-  <div>
-    <div class="footer-col-title">Dining</div>
-    <ul class="footer-links">
-      <li><a href="#dining">Sei Less</a></li>
-      <li><a href="#dining">Pappas NY</a></li>
-      <li><a href="#dining">Tucci New York</a></li>
-      <li><a href="#dining">Gyro City</a></li>
-    </ul>
-  </div>
-  <div>
-    <div class="footer-col-title">Contact</div>
-    <ul class="footer-links">
-      <li><a href="tel:9145208150">(914) 520-8150</a></li>
-      <li><a href="mailto:reservations@dreamhospitalitygroup.com">Reservations</a></li>
-      <li><a href="https://www.instagram.com/dreamhospitality/" target="_blank">Instagram</a></li>
-      <li><a href="/admin/">Staff Portal</a></li>
-    </ul>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Dream Hospitality Group LLC. All rights reserved. New York City.</span>
-    <span style="color:rgba(255,255,255,0.08)">dream-os</span>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Dream Hospitality Group</div>
+        <p class="footer-tag">New York City's premier hospitality group. Four venues. Four restaurants. One standard.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Nightlife</div>
+        <ul class="footer-links">
+          <li><a href="#venues">Harbor NYC</a></li>
+          <li><a href="#venues">Nebula</a></li>
+          <li><a href="#venues">PHD Rooftop</a></li>
+          <li><a href="#venues">Petite</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Dining</div>
+        <ul class="footer-links">
+          <li><a href="#dining">Sei Less</a></li>
+          <li><a href="#dining">Pappas NY</a></li>
+          <li><a href="#dining">Tucci New York</a></li>
+          <li><a href="#dining">Gyro City</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:9145208150">(914) 520-8150</a></li>
+          <li><a href="mailto:reservations@dreamhospitalitygroup.com">Reservations</a></li>
+          <li><a href="https://www.instagram.com/dreamhospitality/" target="_blank">Instagram</a></li>
+          <li><a href="/membership/">Membership</a></li>
+          <li><a href="/admin/">Staff Portal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">2026 Dream Hospitality Group LLC. All rights reserved. New York City.</span>
+      <span class="footer-copy">dreamhospitalitygroup.com</span>
+    </div>
   </div>
 </footer>
 
 <div id="toast-container"></div>
+
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
-
-  // Nav compact on scroll
-  window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('compact', window.scrollY > 80);
-  });
-
-  // Fade out fallback once video has likely loaded
-  setTimeout(() => {
-    const fb = document.getElementById('yt-fallback');
-    if (fb) fb.classList.add('hidden');
-  }, 3500);
-
-  // Interactive mouse parallax on the video
-  const ytIframe = document.getElementById('yt-iframe');
-  const hero = document.getElementById('hero');
-  let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-  const strength = 12; // px shift amount
-
-  hero.addEventListener('mousemove', e => {
-    const rect = hero.getBoundingClientRect();
-    const cx = rect.width / 2, cy = rect.height / 2;
-    targetX = -((e.clientX - cx) / cx) * strength;
-    targetY = -((e.clientY - cy) / cy) * strength;
-  });
-  hero.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
-
-  (function animateParallax() {
-    currentX += (targetX - currentX) * 0.06;
-    currentY += (targetY - currentY) * 0.06;
-    if (ytIframe) {
-      ytIframe.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px)) scale(1.08)`;
-      ytIframe.style.transition = 'none';
-    }
-    requestAnimationFrame(animateParallax);
-  })();
-
-  // Scroll: darken overlay as user scrolls down into page
-  const ytOverlay = document.getElementById('yt-overlay');
-  window.addEventListener('scroll', () => {
-    const pct = Math.min(window.scrollY / window.innerHeight, 1);
-    if (ytOverlay) ytOverlay.style.opacity = 1 + pct * 0.5;
-  });
-
-  // Toast
-  function toast(msg, type = 'success') {
-    const c = document.getElementById('toast-container');
-    const t = document.createElement('div');
-    t.className = `toast toast--${type}`;
-    t.textContent = msg;
-    c.appendChild(t);
-    setTimeout(() => t.remove(), 4000);
-  }
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Reserve form
   document.getElementById('reserve-form').addEventListener('submit', async e => {
@@ -865,17 +609,25 @@
     const btn = document.getElementById('reserve-btn');
     btn.disabled = true; btn.textContent = 'Sending...';
     const body = Object.fromEntries(new FormData(e.target).entries());
+    body.name = `${body.first_name || ''} ${body.last_name || ''}`.trim();
     try {
       const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       if (!res.ok) throw new Error();
-      toast('Request received — our team will be in touch shortly.');
+      showToast('Request received. Our team will be in touch shortly.', 'success');
       e.target.reset();
     } catch {
-      toast('Something went wrong. Please call us directly.', 'error');
-    } finally {
-      btn.disabled = false; btn.textContent = 'Send Request';
-    }
+      showToast('Something went wrong. Please call us directly.', 'error');
+    } finally { btn.disabled = false; btn.textContent = 'Send Request'; }
   });
+
+  function showToast(msg, type) {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = `toast toast--${type}`;
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => t.remove(), 4500);
+  }
 </script>
 </body>
 </html>
